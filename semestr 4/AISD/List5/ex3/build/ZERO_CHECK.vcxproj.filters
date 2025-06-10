@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\JS\Desktop\Studia\Uni\semestr 4\AISD\List5\ex3\build\CMakeFiles\e189a517be83d768c6c0ce97686075d0\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{7134E620-81A7-3C0A-9D08-E80544870293}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

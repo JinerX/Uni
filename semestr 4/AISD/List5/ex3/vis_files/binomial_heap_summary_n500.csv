@@ -1,0 +1,6 @@
+Experiment,Total_Comparisons,Average_Per_Operation,Is_Sorted,Heap_Empty
+1,12292,6.143,YES,YES
+2,12255,6.124,YES,YES
+3,12221,6.107,YES,YES
+4,12258,6.126,YES,YES
+5,12248,6.121,YES,YES

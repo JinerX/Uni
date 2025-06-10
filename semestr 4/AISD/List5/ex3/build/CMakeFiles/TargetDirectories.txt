@@ -1,0 +1,3 @@
+C:/Users/JS/Desktop/Studia/Uni/semestr 4/AISD/List5/ex3/build/CMakeFiles/AISD_LIST5_SCALABILITY.dir
+C:/Users/JS/Desktop/Studia/Uni/semestr 4/AISD/List5/ex3/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/JS/Desktop/Studia/Uni/semestr 4/AISD/List5/ex3/build/CMakeFiles/ZERO_CHECK.dir

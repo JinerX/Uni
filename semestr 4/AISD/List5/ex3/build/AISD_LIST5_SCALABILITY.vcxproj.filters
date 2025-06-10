@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\JS\Desktop\Studia\Uni\semestr 4\AISD\List5\ex3\scalability_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\JS\Desktop\Studia\Uni\semestr 4\AISD\List5\ex3\src\BinomialHeap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\JS\Desktop\Studia\Uni\semestr 4\AISD\List5\ex3\src\Experiments.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\JS\Desktop\Studia\Uni\semestr 4\AISD\List5\ex3\src\Scalability.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\JS\Desktop\Studia\Uni\semestr 4\AISD\List5\ex3\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D97CD320-7741-3EE1-962B-C064D3C6ECA6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

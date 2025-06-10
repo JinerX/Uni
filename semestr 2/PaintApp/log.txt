@@ -1,0 +1,10 @@
+cze 05, 2025 5:59:42 PM Main start
+FINE: PaintApp started
+cze 05, 2025 5:59:54 PM PaneController drawWithPoints
+FINE: Shape generated with points: 166.0 112.0 265.0 173.0
+cze 05, 2025 5:59:56 PM PaneController drawWithPoints
+FINE: Shape generated with points: 366.0 61.0 391.0 192.0
+cze 05, 2025 5:59:59 PM PaneController drawWithPoints
+FINE: Shape generated with points: 248.0 188.0 336.0 229.0
+cze 05, 2025 6:00:06 PM PaneController drawWithPoints
+FINE: Shape generated with points: 146.0 30.0 187.0 103.0

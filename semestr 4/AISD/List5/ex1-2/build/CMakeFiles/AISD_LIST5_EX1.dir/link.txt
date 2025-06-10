@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/AISD_LIST5_EX1.dir/main.cpp.o CMakeFiles/AISD_LIST5_EX1.dir/src/Simulations.cpp.o CMakeFiles/AISD_LIST5_EX1.dir/src/Tree.cpp.o -o AISD_LIST5_EX1 
