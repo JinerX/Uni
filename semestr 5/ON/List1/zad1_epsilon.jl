@@ -1,3 +1,5 @@
+# Jędrzej Sajnóg 279701
+
 types = [Float16, Float32, Float64]
 
 

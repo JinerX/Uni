@@ -1,4 +1,5 @@
-# First attempt - naive approach (maybe it's close to 1)
+# Jędrzej Sajnóg 279701
+
 
 function find_smallest_approx()
     x = one(Float64)
@@ -11,5 +12,5 @@ function find_smallest_approx()
 end
 
 a = find_smallest_approx()
-solution = a * (1/a)
+solution = a * (1/a) 
 println("smallest a such that a* (1/a) /= 1 is: $a, instead it equals $solution")

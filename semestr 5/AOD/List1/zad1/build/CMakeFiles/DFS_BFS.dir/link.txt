@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/DFS_BFS.dir/main.cpp.o CMakeFiles/DFS_BFS.dir/src/searches.cpp.o CMakeFiles/DFS_BFS.dir/src/tree_display.cpp.o -o DFS_BFS 

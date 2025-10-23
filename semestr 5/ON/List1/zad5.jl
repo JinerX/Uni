@@ -1,3 +1,6 @@
+# Jędrzej Sajnóg 279701
+
+
 using Printf
 
 
@@ -8,7 +11,7 @@ function forward_sum(x,y)
     if length(x) != length(y)
         throw(ArgumentError("two values must have the same length"))
     end
-    sum = 0
+    sum = zero(eltype(x))
     for i in 1:1:length(x)
         sum = sum + x[i] * y[i]
     end
@@ -19,7 +22,7 @@ function backward_sum(x,y)
     if length(x) != length(y)
         throw(ArgumentError("two values must have the same length"))
     end
-    sum = 0
+    sum = zero(eltype(x))
     for i in reverse(1:1:length(x))
         sum = sum + x[i] * y[i]
     end
@@ -39,8 +42,9 @@ function get_products(x,y)
         throw(ArgumentError("input vectors need to have the same length"))
     end
     products = []
+    T = eltype(x)
     for i in 1:1:length(x)
-        product = x[i] * y[i]
+        product = T(x[i] * y[i])
         append!(products, product)
     end
     return products
@@ -49,10 +53,11 @@ end
 
 function sum_large_to_small(x,y)
     products = get_products(x,y)
-    positives = []
-    negatives = []
+    T = eltype(x)
+    positives = T[]
+    negatives = T[]
     for i in 1:1:length(products)
-        if x[i] < 0
+        if products[i] < zero(T)
             append!(negatives, products[i])
         else
             append!(positives, products[i])
@@ -60,18 +65,21 @@ function sum_large_to_small(x,y)
     end
     sort!(positives; rev = true)
     sort!(negatives)
-    p = sum_single(positives)
-    n = sum_single(negatives)
-    s = p + n
+    pos_sum = zero(T)
+    neg_sum = zero(T)
+    for p in positives; pos_sum += p; end
+    for n in negatives; neg_sum += n; end
+    s = pos_sum + neg_sum
     return s
 end
 
 function sum_small_to_large(x,y)
     products = get_products(x,y)
-    positives = []
-    negatives = []
+    T = eltype(x)
+    positives = T[]
+    negatives = T[]
     for i in 1:1:length(products)
-        if x[i] < 0
+        if products[i] < zero(T)
             append!(negatives, products[i])
         else
             append!(positives, products[i])
@@ -79,9 +87,12 @@ function sum_small_to_large(x,y)
     end
     sort!(positives)
     sort!(negatives; rev = true)
-    p = sum_single(positives)
-    n = sum_single(negatives)
-    s = p + n
+    pos_sum = zero(T)
+    neg_sum = zero(T)
+    for p in positives; pos_sum += p; end
+    for n in negatives; neg_sum += n; end
+    
+    s = neg_sum + pos_sum
     return s
 end
 
