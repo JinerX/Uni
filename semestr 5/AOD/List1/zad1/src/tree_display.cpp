@@ -11,7 +11,7 @@ void print_recursively(
     bool is_last) {
         std::cout << prefix;
         std::cout << (is_last ? "`--" : "|--");
-        std::cout << current_node << std::endl;
+        std::cout << current_node + 1 << std::endl;
         if (parent_vector[current_node].size()) {
             for (int i = 0; i < parent_vector[current_node].size(); i++) {
                 std::string new_prefix = (is_last ? prefix + "    " : prefix + "|   ");
@@ -33,7 +33,7 @@ void display_tree(std::vector<std::vector<int>> parent_vector) {
         std::sort(single_row.begin(), single_row.end());
     }
     int root = parent_vector[parent_vector.size()-1][0];
-    std::cout << root << std::endl;
+    std::cout << root + 1 << std::endl;
     if (parent_vector[root].size()) {
         for (int i = 0; i < parent_vector[root].size(); i++) {
             print_recursively(parent_vector[root][i], parent_vector, "", (i == parent_vector[root].size() - 1));

@@ -2,6 +2,8 @@
 
 types = [Float16, Float32, Float64]
 
+# Function for finding the smallest representable positive number 
+
 function find_eta(type)
     a = zero(type)
     x = convert(type, a)

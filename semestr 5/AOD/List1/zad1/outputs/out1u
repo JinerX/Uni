@@ -1,0 +1,29 @@
+==========DFS=========
+Visited node: 1
+Visited node: 3
+Visited node: 6
+Visited node: 5
+Visited node: 2
+Visited node: 4
+DISPLAYING TREE
+1
+|--2
+|   `--4
+`--3
+    |--5
+    `--6
+==========BFS=========
+Visited node: 1
+Visited node: 2
+Visited node: 3
+Visited node: 4
+Visited node: 5
+Visited node: 6
+DISPLAYING TREE
+1
+|--2
+|   |--4
+|   `--5
+`--3
+    `--6
+time taken: 0.000356126

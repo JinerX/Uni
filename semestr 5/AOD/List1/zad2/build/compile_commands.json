@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/build",
+  "command": "/usr/bin/c++  -I\"/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/include\" -g -o CMakeFiles/AOD_ZAD2.dir/main.cpp.o -c \"/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/main.cpp\"",
+  "file": "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/main.cpp",
+  "output": "CMakeFiles/AOD_ZAD2.dir/main.cpp.o"
+},
+{
+  "directory": "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/build",
+  "command": "/usr/bin/c++  -I\"/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/include\" -g -o CMakeFiles/AOD_ZAD2.dir/src/Kahn.cpp.o -c \"/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/src/Kahn.cpp\"",
+  "file": "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/src/Kahn.cpp",
+  "output": "CMakeFiles/AOD_ZAD2.dir/src/Kahn.cpp.o"
+},
+{
+  "directory": "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/build",
+  "command": "/usr/bin/c++  -I\"/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/include\" -g -o CMakeFiles/AOD_ZAD2.dir/src/load_data.cpp.o -c \"/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/src/load_data.cpp\"",
+  "file": "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad2/src/load_data.cpp",
+  "output": "CMakeFiles/AOD_ZAD2.dir/src/load_data.cpp.o"
+}
+]

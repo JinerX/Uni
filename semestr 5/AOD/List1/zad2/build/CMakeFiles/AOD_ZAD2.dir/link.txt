@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/AOD_ZAD2.dir/link.d CMakeFiles/AOD_ZAD2.dir/main.cpp.o CMakeFiles/AOD_ZAD2.dir/src/Kahn.cpp.o CMakeFiles/AOD_ZAD2.dir/src/load_data.cpp.o -o AOD_ZAD2

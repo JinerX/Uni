@@ -19,7 +19,8 @@ void DFS(std::vector<std::vector<int>> adjacency_lists, int start, bool print_tr
     while (!s.empty()) {
         int c = s.top();
         s.pop();
-        std::cout << "Visited node: " << c << std::endl;
+        std::cout << "Visited node: " << c+1 << std::endl;
+
         for (int n : adjacency_lists[c]) {
             if (!visited.count(n)) {
                 parent_list[c].push_back(n);
@@ -45,7 +46,7 @@ void BFS(std::vector<std::vector<int>> adjacency_lists, int start, bool print_tr
     while (!q.empty()) {
         int c = q.front();
         q.pop();
-        std::cout << "Visited node: " << c << std::endl;
+        std::cout << "Visited node: " << c+1 << std::endl;
         for (int n : adjacency_lists[c]) {
             if (!visited.count(n)) {
                 parent_list[c].push_back(n);

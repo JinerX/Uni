@@ -1,0 +1,3 @@
+/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad3/build/CMakeFiles/AOD_ZAD3.dir
+/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad3/build/CMakeFiles/edit_cache.dir
+/home/js/Desktop/Studia/Uni/semestr 5/AOD/List1/zad3/build/CMakeFiles/rebuild_cache.dir

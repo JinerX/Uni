@@ -1,6 +1,8 @@
 # Jędrzej Sajnóg 279701
 
 
+# for values between 1 and 2 adding epsilon works effectively as nextfloat, this would need to be altered for checking values in a different range
+
 function find_smallest_approx()
     x = one(Float64)
     while x < Float64(2)

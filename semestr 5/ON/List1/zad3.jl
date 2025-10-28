@@ -36,6 +36,7 @@ function nextfloat64(float_input_val)
 end
 
 
+# Function shows num_examples examples of bitstrings of float values starting at start and going no further then finish
 
 function show_first_bitstrings(start, finish, num_examples)
     curr = Float64(start)
