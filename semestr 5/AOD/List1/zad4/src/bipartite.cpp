@@ -4,13 +4,14 @@
 #include <queue>
 #include <set>
 #include <tuple>
+#include <iostream>
 
 
 std::vector<int> make_bipartite(std::vector<std::vector<int>> adjacency_list) {
     int n = adjacency_list.size();
     std::vector<int> sets(n);
     std::set<int> unvisited;
-    std::queue<std::tuple<int,int>> q;
+    std::queue<int> q;
 
     for (int i=0; i < n; i++) {
         unvisited.insert(i);
@@ -24,15 +25,14 @@ std::vector<int> make_bipartite(std::vector<std::vector<int>> adjacency_list) {
         int curr_node = *unvisited.begin();
         unvisited.erase(unvisited.begin());
         int curr_set = 0;
-        q.push({curr_node, curr_set});
-
+        sets[curr_node] = curr_set;
+        q.push(curr_node);
         while (!q.empty()) {
-            auto [node, set] = q.front();
+            auto node = q.front();
             q.pop();
-            // assign set value and remove from unvisited
-            sets[node] = set; 
+            // assign set value and remove from unvisited 
             unvisited.erase(node);
-            int neighbor_set = (set + 1) % 2;
+            int neighbor_set = (sets[node] + 1) % 2;
             for (auto neighbor : adjacency_list[node]) {
                 // if neighbor is already in a set means it's been visited already
                 if (sets[neighbor] != -1) {
@@ -43,12 +43,11 @@ std::vector<int> make_bipartite(std::vector<std::vector<int>> adjacency_list) {
                 }
                 else {
                     // neighbor hasn't been visited yet, add it to the Queue
-                    q.push({neighbor, neighbor_set});
+                    sets[neighbor] = neighbor_set;
+                    q.push(neighbor);
                 }
             }
         }
-
-
     }
     return sets;
 }

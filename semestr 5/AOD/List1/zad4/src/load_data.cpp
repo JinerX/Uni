@@ -59,6 +59,7 @@ std::tuple<std::vector<std::vector<int>>, bool> load_textfile(std::string filepa
         int to = std::stoi(y) - 1;
         
         adjacency_list[from].push_back(to);
+        // adjacency_list[to].push_back(from);
         if (directed != "D") {
             adjacency_list[to].push_back(from);
         }
