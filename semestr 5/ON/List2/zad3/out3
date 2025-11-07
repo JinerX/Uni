@@ -1,0 +1,148 @@
+=============n: 5================
+Hilbert matrix
+condition number: 476607.2502425855
+rank: 5
+gauss method, δ: 1.6828426299227195e-12
+inverse matrix method, δ: 3.3544360584359632e-12
+Random matrix
+c: 0
+condition number: 1.0000000000000004
+rank: 5
+gauss method, δ: 1.4043333874306804e-16
+inverse matrix method, δ: 1.9860273225978183e-16
+c: 1
+condition number: 10.000000000000018
+rank: 5
+gauss method, δ: 3.2934537262255424e-16
+inverse matrix method, δ: 2.9790409838967276e-16
+c: 3
+condition number: 999.9999999998996
+rank: 5
+gauss method, δ: 2.738292563558934e-14
+inverse matrix method, δ: 2.7484781295102945e-14
+c: 7
+condition number: 1.0000000000354938e7
+rank: 5
+gauss method, δ: 1.2306108527671254e-11
+inverse matrix method, δ: 4.3655745685100555e-11
+c: 12
+condition number: 1.0000120693777515e12
+rank: 5
+gauss method, δ: 2.22091305454111e-5
+inverse matrix method, δ: 2.2017281304579155e-5
+c: 16
+condition number: 5.812904547323653e15
+rank: 4
+gauss method, δ: 0.20309483592768973
+inverse matrix method, δ: 0.1956247503992018
+=============n: 10================
+Hilbert matrix
+condition number: 1.602441698742836e13
+rank: 10
+gauss method, δ: 8.67039023709691e-5
+inverse matrix method, δ: 0.0002501493411824886
+Random matrix
+c: 0
+condition number: 1.000000000000001
+rank: 10
+gauss method, δ: 2.7866376757248753e-16
+inverse matrix method, δ: 2.895107444979072e-16
+c: 1
+condition number: 10.0
+rank: 10
+gauss method, δ: 2.7866376757248753e-16
+inverse matrix method, δ: 1.6467268631127714e-16
+c: 3
+condition number: 1000.0000000000149
+rank: 10
+gauss method, δ: 1.7379299452715362e-14
+inverse matrix method, δ: 1.987020088129751e-14
+c: 7
+condition number: 1.0000000005659997e7
+rank: 10
+gauss method, δ: 7.7463693227502e-11
+inverse matrix method, δ: 7.569269314000718e-11
+c: 12
+condition number: 9.999562245125183e11
+rank: 10
+gauss method, δ: 2.6875032820314726e-5
+inverse matrix method, δ: 2.2975437425846924e-5
+c: 16
+condition number: 8.230193041119982e15
+rank: 9
+gauss method, δ: 0.10957828586743455
+inverse matrix method, δ: 0.1048447978710675
+=============n: 15================
+Hilbert matrix
+condition number: 3.67568286586649e17
+rank: 12
+gauss method, δ: 4.696668350857427
+inverse matrix method, δ: 7.344641453111494
+Random matrix
+c: 0
+condition number: 1.000000000000001
+rank: 15
+gauss method, δ: 3.737567639961684e-16
+inverse matrix method, δ: 4.486912934894983e-16
+c: 1
+condition number: 9.999999999999984
+rank: 15
+gauss method, δ: 5.199511573793422e-16
+inverse matrix method, δ: 5.370542509574172e-16
+c: 3
+condition number: 999.9999999999724
+rank: 15
+gauss method, δ: 1.2445430088574587e-14
+inverse matrix method, δ: 4.872770414973688e-15
+c: 7
+condition number: 9.999999995151648e6
+rank: 15
+gauss method, δ: 1.660915871793415e-10
+inverse matrix method, δ: 1.9234096364872014e-10
+c: 12
+condition number: 1.0000539190170875e12
+rank: 15
+gauss method, δ: 9.791591333210507e-6
+inverse matrix method, δ: 1.3091220939789883e-5
+c: 16
+condition number: 9.276610550444184e15
+rank: 14
+gauss method, δ: 0.5831695629174949
+inverse matrix method, δ: 0.5791879041697854
+=============n: 20================
+Hilbert matrix
+condition number: 1.1484020388436145e18
+rank: 13
+gauss method, δ: 108.31777346206205
+inverse matrix method, δ: 114.34403152557572
+Random matrix
+c: 0
+condition number: 1.0000000000000013
+rank: 20
+gauss method, δ: 5.277940006822452e-16
+inverse matrix method, δ: 4.0488906735825987e-16
+c: 1
+condition number: 9.999999999999996
+rank: 20
+gauss method, δ: 5.075553067018772e-16
+inverse matrix method, δ: 5.307051865840292e-16
+c: 3
+condition number: 999.9999999999196
+rank: 20
+gauss method, δ: 9.345941564689804e-15
+inverse matrix method, δ: 1.4278693951281767e-14
+c: 7
+condition number: 9.999999996985689e6
+rank: 20
+gauss method, δ: 4.1967042035544873e-10
+inverse matrix method, δ: 4.3184662635567196e-10
+c: 12
+condition number: 1.0000493464882384e12
+rank: 20
+gauss method, δ: 7.739562364722039e-6
+inverse matrix method, δ: 6.773773520309357e-6
+c: 16
+condition number: 5.02895079556082e15
+rank: 19
+gauss method, δ: 0.11270336613279895
+inverse matrix method, δ: 0.08099701449696695

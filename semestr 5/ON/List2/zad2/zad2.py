@@ -12,4 +12,5 @@ X = np.arange(0,50,0.01)
 Y = [f(x) for x in X]
 
 plt.plot(X,Y)
+plt.savefig("python.png")
 plt.show()

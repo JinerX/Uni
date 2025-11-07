@@ -1,0 +1,8 @@
+========== Type: Float32 =============
+p calucalted in a standard way: 0.089340806
+p calucalted after cutoff (10-th round): 0.7229306
+p calucalted after cutoff (40-th round): 0.7715323
+========== Type: Float64 =============
+p calucalted in a standard way: 0.011601082861106218
+p calucalted after cutoff (10-th round): 0.7229143011796237
+p calucalted after cutoff (40-th round): 0.7305550513325518

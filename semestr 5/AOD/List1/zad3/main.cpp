@@ -15,6 +15,7 @@ int main(int argc, char** argv){
     else {
         std::tie(adjacency_lists, _) = load_standard(argc, argv);
     }
+    std::cout << "eloelo" << std::endl;
 
     auto start = std::chrono::high_resolution_clock::now();
 
