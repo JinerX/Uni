@@ -1,0 +1,31 @@
+found standard comment: // standard comment 1
+found multiline comment: /*
+
+Multi
+line 
+comment
+1
+
+*/
+
+
+/*
+
+Multi
+line
+comment 2
+
+*/
+
+// standard comment 2
+
+
+int main() {
+    ///// standard comment 3
+    /*
+     multiline comment 3
+
+     eloelo
+     320
+    */
+found single string: 'Hello world!'

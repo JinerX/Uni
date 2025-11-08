@@ -1,0 +1,20 @@
+s1 = "hello" # comment
+s2 = "hello # not a comment"
+s3 = 'hi # not a comment'
+s4 = """text # not a comment
+# also not a comment
+""" # comment
+s5 = '''text # not a comment
+# also not a comment
+''' # a comment
+s6 = "hello" # this is a comment " <- shouldn't be part of string
+ping a string
+s7 = "hello \" # not a comment"
+s8 = 'hi \' # not a comment'
+s9 = "\\" # this is a comment
+s10 = "\\\" # this isn't"
+s11 = "\\\\" # even number of backslashes before closing " mean it's gonna
+s12 = "\\\\\" # odd number means it won't"
+s13 = '\\\' # not a comment'
+s14 = '\\' # comment
+s15 = """ \""""
