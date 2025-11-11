@@ -1,3 +1,6 @@
+# Jędrzej Sajnóg 279701
+
+
 using LinearAlgebra
 
 # using(Pkg)

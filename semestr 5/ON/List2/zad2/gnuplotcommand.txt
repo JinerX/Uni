@@ -1,0 +1,14 @@
+gnuplot> set terminal pngcairo size 800,800 enhanced font "Arial, 12"
+
+Terminal type is now 'pngcairo'
+Options are ' background "#ffffff" enhanced font "Arial, 12" fontscale 1.0 size 800, 800 '
+gnuplot> set output "gnuplot.png"
+gnuplot> set grid
+gnuplot> set title "e^x*ln(1+e^(-x))"
+gnuplot> set xrange [-5,50]
+                       ^
+         ':' or keyword 'to' expected
+
+gnuplot> set xrange [-5:50]
+gnuplot> plot exp(x)*log(1+exp(-x)) title "e^x*ln(1+e^(-x))" with lines lw 2 lc rgb "blue"
+

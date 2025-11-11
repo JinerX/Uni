@@ -1,3 +1,6 @@
+# Jędrzej Sajnóg 279701
+
+
 import matplotlib.pyplot as plt
 from math import exp, log
 import numpy as np

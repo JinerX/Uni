@@ -1,3 +1,5 @@
+# Jędrzej Sajnóg 279701
+
 using Printf
 
 

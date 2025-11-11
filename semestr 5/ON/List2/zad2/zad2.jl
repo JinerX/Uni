@@ -1,3 +1,5 @@
+# Jędrzej Sajnóg 279701
+
 using Plots
 
 f(x) = exp(x)*log(1+exp(-x))
