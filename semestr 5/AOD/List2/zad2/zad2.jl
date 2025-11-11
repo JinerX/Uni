@@ -123,7 +123,7 @@ end
 
 optimize!(model)
 println("termination status: ", termination_status(model))
-println("objective (total money): ", objective_value(model))
+println("profit: ", objective_value(model))
 for c in 1:n_products
     println("product: $c: ", value(x[c]))
 end

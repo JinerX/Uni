@@ -1,0 +1,40 @@
+Running HiGHS 1.12.0 (git hash: 755a8e027a): Copyright (c) 2025 HiGHS under MIT licence terms
+LP has 7 rows; 12 cols; 24 nonzeros
+Coefficient ranges:
+  Matrix  [1e+00, 1e+00]
+  Cost    [4e+00, 1e+01]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+05, 7e+05]
+Presolving model
+7 rows, 12 cols, 24 nonzeros  0s
+Dependent equations search running on 4 equations with time limit of 1000.00s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1000.00s)
+7 rows, 12 cols, 24 nonzeros  0s
+Presolve reductions: rows 7(-0); columns 12(-0); nonzeros 24(-0) - Not reduced
+Problem not reduced by presolve: solving the LP
+Using EKK dual simplex solver - serial
+  Iteration        Objective     Infeasibilities num(sum)
+          0     0.0000000000e+00 Pr: 4(1.1e+06) 0s
+          6     8.5250000000e+06 Pr: 0(0) 0s
+
+Model status        : Optimal
+Simplex   iterations: 6
+Objective value     :  8.5250000000e+06
+P-D objective error :  0.0000000000e+00
+HiGHS run time      :          0.00
+3
+4
+termination status: OPTIMAL
+objective (total money): 8.525e6
+company 1 -> airport 1: 0.0
+company 1 -> airport 2: 165000.0
+company 1 -> airport 3: 0.0
+company 1 -> airport 4: 110000.0
+company 2 -> airport 1: 110000.0
+company 2 -> airport 2: 55000.0
+company 2 -> airport 3: 0.0
+company 2 -> airport 4: 0.0
+company 3 -> airport 1: 0.0
+company 3 -> airport 2: 0.0
+company 3 -> airport 3: 330000.0
+company 3 -> airport 4: 330000.0
