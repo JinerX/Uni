@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>   
 #include <string.h> 
-int save_docs = 0;
+int save_docs = 1;
 int debugging = 0;
 %}
 

@@ -1,31 +1,21 @@
-found standard comment: // standard comment 1
-found multiline comment: /*
-
-Multi
-line 
-comment
-1
-
-*/
+#include <iostream>
 
 
-/*
 
-Multi
-line
-comment 2
-
-*/
-
-// standard comment 2
+/**
+ * 
+ * DOXYGEN COMMENT
+ * 
+ */
 
 
+
+//! Doxygen single line comment
 int main() {
-    ///// standard comment 3
-    /*
-     multiline comment 3
+    std::cout << "//!Doxygen comment inside string should not be detected" << std::endl; 
+    std::cout << "eloelo\\
+                  320\\
+                  coscos";
+    return 0;
 
-     eloelo
-     320
-    */
-found single string: 'Hello world!'
+}

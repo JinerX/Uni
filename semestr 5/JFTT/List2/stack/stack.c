@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #define MAX_STACK 1024
 #define ERROR_SIZE 256
 static int stack[MAX_STACK];
@@ -27,6 +28,60 @@ static int stack_pop() {
     }
     sp --;
     return stack[sp];
+}
+
+static int int_pow(int a, int b) {
+    int result = 1;
+    while (b) {
+        if (b & 1) result *= a;
+        a *= a;
+        b >>= 1;
+    }
+    return result;
+}
+
+static int apply_operation(int el1, int el2, char op) {
+    int r;
+    switch (op)
+    {
+    case '+':
+        r = el1 + el2;
+        break;
+    case '-':
+        r = el1 - el2;
+        break;
+    case '*':
+        r = el1 * el2;
+    case '%':
+        if (el2 == 0) {
+            snprintf(error_message, sizeof(error_message), "Error: attempted module over 0");
+            error_flag = 1;
+            return -1;
+        }
+        r = el1 % el2;
+        break;
+    case '/':
+        if (el2 == 0) {
+            error_flag = 1;
+            snprintf(error_message, sizeof(error_message), "Error: attempted division over 0");
+            return -1;
+        }
+        r = el1 / el2;
+        break;
+    case '^':
+        if (el2 < 0) {
+            error_flag = 1;
+            snprintf(error_message, sizeof(error_message), "Error: attempted to exponentiate with negative exponent");
+            return -1;
+        }
+        r = int_pow(el1,el2);
+        break;
+    default:
+        error_flag = 1;
+        snprintf(error_message, sizeof(error_message), "Error: unknown operator: %s", op);
+        return -1;
+    }
+    return r;
 }
 
 

@@ -1,0 +1,16 @@
+import math
+
+a = [12,34,56] 
+b = [32,43,12] 
+
+string = "I feel like writing a comment in a string # whatever" 
+multiline_string = """
+# comments here dont matter either
+#
+#
+#
+\"I can even write in double quotes\"
+""" 
+
+
+

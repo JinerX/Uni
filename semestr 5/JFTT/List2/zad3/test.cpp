@@ -17,5 +17,9 @@ Standard comment multine
 //! Doxygen single line comment
 int main() {
     std::cout << "//!Doxygen comment inside string should not be detected" << std::endl; // comment in the same line as code
+    std::cout << "eloelo\\
+                  320\\
+                  coscos";
     return 0;
+
 }

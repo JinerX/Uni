@@ -465,7 +465,7 @@ char *yytext;
 #line 2 "cpp_comments.l"
 #include <stdio.h>   
 #include <string.h> 
-int save_docs = 0;
+int save_docs = 1;
 int debugging = 0;
 #line 471 "lex.yy.c"
 #line 472 "lex.yy.c"

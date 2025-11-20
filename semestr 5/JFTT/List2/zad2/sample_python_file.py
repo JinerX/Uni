@@ -13,3 +13,4 @@ multiline_string = """
 """ # and still add a comment later
 # line with just a comment
 
+# "this is a comment"
