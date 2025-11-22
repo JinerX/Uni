@@ -3,9 +3,9 @@ using Test
 using .ApproxTools
 const AT = ApproxTools
 
-# --------------------------
-# Helper test functions
-# --------------------------
+# ============================================================
+# Helper functions
+# ============================================================
 
 f1(x) = x^2 - 2
 df1(x) = 2x
@@ -13,127 +13,143 @@ df1(x) = 2x
 f2(x) = exp(x) - 3
 df2(x) = exp(x)
 
-# --------------------------
-# Tests for mbisekcji
-# --------------------------
-
-@testset "Bisection: mbisekcji" begin
-    # Correct root for x^2 - 2 on [1,2]
-    r, v, it, err = AT.mbisekcji(f1, 1.0, 2.0, 1e-10, 1e-10)
-    @test isapprox(r, sqrt(2), atol=1e-8)
-    @test isapprox(v, 0.0, atol=1e-8)
-    @test err == 0
-    @test it > 0
-
-    # Wrong interval → error
-    r, v, it, err = AT.mbisekcji(f1, 2.0, 3.0, 1e-10, 1e-10)
-    @test isnan(r)
-    @test err == 1
-    @test it == 0
-end
-
-# --------------------------
-# Tests for mstycznych (Newton)
-# --------------------------
-
-@testset "Newton: mstycznych" begin
-    # Converges on well-behaved function
-    r, v, it, err = AT.mstycznych(f1, df1, 2.0, 1e-10, 1e-10, 50)
-    @test isapprox(r, sqrt(2), atol=1e-8)
-    @test isapprox(v, 0.0, atol=1e-8)
-    @test err == 0
-    @test it > 0
-
-    # Derivative near zero → error=2
-    # Try starting at x=0 for f(x)=x^2 → f'(0)=0
-    g(x) = x^3 + 1
-    dg(x) = 3x^2
-
-    r, v, it, err = AT.mstycznych(g, dg, 1e-20, 1e-8, 1e-8, 10)
-    @test err == 2
-
-    # Max iterations reached → error=1
-    # Choose a bad starting point for f1
-    r, v, it, err = AT.mstycznych(f1, df1, 100.0, 1e-10, 1e-10, 3)
-    @test err == 1
-end
-
-# --------------------------
-# Tests for msiecznych (Secant)
-# --------------------------
-
-@testset "Secant: msiecznych" begin
-    # Should converge to sqrt(2)
-    r, v, it, err = AT.msiecznych(f1, 1.0, 2.0, 1e-10, 1e-10, 50)
-    @test isapprox(r, sqrt(2), atol=1e-8)
-    @test isapprox(v, 0.0, atol=1e-8)
-    @test err == 0
-    @test it > 0
-
-    # Check stopping when f(x) small at start
-    r, v, it, err = AT.msiecznych(f1, sqrt(2), 2.0, 1e-10, 1e-10, 50)
-    @test err == 0
-    @test it == 0
-    @test isapprox(v, 0.0, atol=1e-10)
-
-    # Check division-by-small-difference case → error=2
-    g(x) = x^3 + 1
-    r, v, it, err = AT.msiecznych(g, 1.0, 1.0 + 1e-12, 1e-10, 1e-10, 10)
-    @test err == 2
-
-    # Max iteration exit → error=1
-    # Use f(x) = x^3 with starting points that go nowhere
-    q(x) = x^3
-    r, v, it, err = AT.msiecznych(q, 100.0, 101.0, 1e-15, 1e-15, 3)
-    @test err == 1
-end
-
-# ----------------------------------------
-# Tests for f3(x) = sin(x) + 10x
-# ----------------------------------------
-
 f3(x) = sin(x)
 df3(x) = cos(x)
 
-@testset "Tests for f3 = sin(x)" begin
+# A flat function near zero (for Newton/ secant error cases)
+g(x) = x^3 + 1
+dg(x) = 3x^2
 
-    # There is a single root near x ≈ 0 (because sin(0)=0)
-    # Solve f3(x) = 0 → sin(x) = -10x → small negative x
-    # Numerical root ≈ -0.099833... (you can verify externally)
-    expected_root = 0
+q(x) = x^3
 
-    # --- Bisection ---
-    # Choose interval [-1, 1]; f3(-1) < 0, f3(1) > 0 → sign change
-    r, v, it, err = AT.mbisekcji(f3, -1.0, 1.0, 1e-10, 1e-10)
-    @test err == 0
-    println(r)
-    @test isapprox(r, expected_root, atol=1e-8)
-    @test isapprox(v, 0.0, atol=1e-8)
-    @test it > 0
 
-    # --- Newton’s Method ---
-    # Start close to the expected root
-    r, v, it, err = AT.mstycznych(f3, df3, 0.0, 1e-10, 1e-10, 50)
-    @test err == 0
-    @test isapprox(r, expected_root, atol=1e-8)
-    @test isapprox(v, 0.0, atol=1e-8)
+# ============================================================
+# Tests for mbisekcji (Bisection method)
+# ============================================================
 
-    # Derivative never vanishes (df3(x) = cos(x) + 10 > 9), so no error=2 case
-    # Check max iteration error with a terrible starting point
-    r, v, it, err = AT.mstycznych(f3, df3, 1000.0, 1e-10, 1e-10, 2)
-    @test err == 1
+@testset "Bisection: mbisekcji" begin
+    @testset "Basic correctness" begin
+        r, v, it, err = AT.mbisekcji(f1, 1.0, 2.0, 1e-10, 1e-10)
+        @test err == 0
+        @test it > 0
+        @test isapprox(r, sqrt(2), atol=1e-8)
+        @test isapprox(v, 0.0, atol=1e-8)
+    end
 
-    # --- Secant Method ---
-    # Use two initial points on opposite sides of the real root
-    r, v, it, err = AT.msiecznych(f3, -1.0, 1.0, 1e-10, 1e-10, 50)
-    @test err == 0
-    @test isapprox(r, expected_root, atol=1e-8)
-    @test isapprox(v, 0.0, atol=1e-8)
-    @test it > 0
+    @testset "Invalid interval (no sign change)" begin
+        r, v, it, err = AT.mbisekcji(f1, 2.0, 3.0, 1e-10, 1e-10)
+        @test err == 1
+        @test isnan(r)
+        @test it == 0
+    end
 
-    # Secant should also converge if starting points are close to the root
-    r, v, it, err = AT.msiecznych(f3, -0.2, 0.2, 1e-10, 1e-10, 50)
-    @test err == 0
-    @test isapprox(r, expected_root, atol=1e-8)
+    @testset "Root exactly on boundary" begin
+        # f1(√2) = 0, so use interval [sqrt(2), 3]
+        r, v, it, err = AT.mbisekcji(f1, sqrt(2), 3.0, 1e-10, 1e-10)
+        @test err == 1
+        @test isequal(r, NaN)
+    end
+end
 
+
+# ============================================================
+# Tests for mstycznych (Newton's method)
+# ============================================================
+
+@testset "Newton: mstycznych" begin
+    @testset "Basic convergence" begin
+        r, v, it, err = AT.mstycznych(f1, df1, 2.0, 1e-10, 1e-10, 50)
+        @test err == 0
+        @test it > 0
+        @test isapprox(r, sqrt(2), atol=1e-8)
+        @test isapprox(v, 0.0, atol=1e-8)
+    end
+
+    @testset "Derivative near zero → error=2" begin
+        r, v, it, err = AT.mstycznych(g, dg, 1e-20, 1e-8, 1e-8, 10)
+        @test err == 2
+    end
+
+    @testset "Max iteration reached → error=1" begin
+        r, v, it, err = AT.mstycznych(f1, df1, 100.0, 1e-10, 1e-10, 3)
+        @test err == 1
+    end
+
+    @testset "Starting at exact root" begin
+        r, v, it, err = AT.mstycznych(f1, df1, sqrt(2), 1e-10, 1e-10, 50)
+        @test err == 0
+        @test it == 0
+        @test isapprox(v, 0.0, atol=1e-12)
+    end
+end
+
+
+# ============================================================
+# Tests for msiecznych (Secant method)
+# ============================================================
+
+@testset "Secant: msiecznych" begin
+    @testset "Basic convergence" begin
+        r, v, it, err = AT.msiecznych(f1, 1.0, 2.0, 1e-10, 1e-10, 50)
+        @test err == 0
+        @test it > 0
+        @test isapprox(r, sqrt(2), atol=1e-8)
+        @test isapprox(v, 0.0, atol=1e-8)
+    end
+
+    @testset "Initial point already a root" begin
+        r, v, it, err = AT.msiecznych(f1, sqrt(2), 2.0, 1e-10, 1e-10, 50)
+        @test err == 0
+        @test it == 0
+        @test isapprox(v, 0.0, atol=1e-12)
+    end
+
+    @testset "f1(x0) ≈ f1(x1) → division-by-small → error=2" begin
+        r, v, it, err = AT.msiecznych(g, 1.0, 1.0 + 1e-12, 1e-10, 1e-10, 10)
+        @test err == 2
+    end
+
+    @testset "Max iterations reached → error=1" begin
+        r, v, it, err = AT.msiecznych(q, 100.0, 101.0, 1e-15, 1e-15, 3)
+        @test err == 1
+    end
+end
+
+
+# ============================================================
+# Tests for f3(x) = sin(x)
+# ============================================================
+
+@testset "Function f3(x) = sin(x)" begin
+    expected_root = 0.0
+
+    @testset "Bisection" begin
+        r, v, it, err = AT.mbisekcji(f3, -1.0, 1.0, 1e-10, 1e-10)
+        @test err == 0
+        @test it > 0
+        @test isapprox(r, expected_root, atol=1e-8)
+        @test isapprox(v, 0.0, atol=1e-8)
+    end
+
+    @testset "Newton" begin
+        r, v, it, err = AT.mstycznych(f3, df3, 0.1, 1e-10, 1e-10, 50)
+        @test err == 0
+        @test isapprox(r, expected_root, atol=1e-8)
+        @test isapprox(v, 0.0, atol=1e-8)
+
+        # bad starting point → max iterations
+        r, v, it, err = AT.mstycznych(f3, df3, 1000.0, 1e-10, 1e-10, 2)
+        @test err == 1
+    end
+
+    @testset "Secant" begin
+        r, v, it, err = AT.msiecznych(f3, -1.0, 1.0, 1e-10, 1e-10, 50)
+        @test err == 0
+        @test it > 0
+        @test isapprox(r, expected_root, atol=1e-8)
+
+        r, v, it, err = AT.msiecznych(f3, -0.2, 0.2, 1e-10, 1e-10, 50)
+        @test err == 0
+        @test isapprox(r, expected_root, atol=1e-8)
+    end
 end

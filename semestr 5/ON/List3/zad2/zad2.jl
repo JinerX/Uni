@@ -27,5 +27,5 @@ end
 f(x) = x^2
 df(x) = 2*x
 
-pred, value, it, err = mstycznych(f,df,-6.0, 0.0000000000000000000000001,0.0000000000000000000001, 400)
+pred, value, it, err = mstycznych(f,df,-6.0, 0.0000000000001,0.00000000000001, 400)
 println("x: $pred, value: $value, iterations: $it, error: $err")
