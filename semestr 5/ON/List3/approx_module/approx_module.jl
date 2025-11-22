@@ -66,13 +66,9 @@ function msiecznych(f, x0::Float64, x1::Float64, delta::Float64, epsilon::Float6
         return (x0, f0, 0, 0)
     end
     for k in 1:maxit
-        if (abs(f0) > abs(f1))
-            tmp = f0
-            f0 = f1
-            f1 = tmp
-            tmp = a
-            a = b
-            b = tmp
+        if (abs(f1) > abs(f0))
+            f0, f1 = f1, f0
+            a, b = b, a
         end
         
         if (abs(f1 - f0) < epsilon)
