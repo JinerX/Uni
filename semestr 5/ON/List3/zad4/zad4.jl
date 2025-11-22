@@ -3,8 +3,8 @@ using .ApproxTools
 
 const AT = ApproxTools
 
-f(x) = sin(x) - 1/2*(x^2)
-df(x) = cos(x) - x
+f(x) = sin(x) - (1/2*x)^2
+df(x) = cos(x) - x/2
 
 rb, vb, itb, errb = AT.mbisekcji(f, 1.5,2.0,0.5*10^(-5), 0.5*10^(-5))
 rn, vn, itn, errn = AT.mstycznych(f, df, 1.5, 0.5*10^(-5), 0.5*10^(-5), 100)
