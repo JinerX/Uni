@@ -1,10 +1,4 @@
-# function warNewton(x::Vector{Float64}, fx::Vector{Float64}, t::Float64)
-#     product = fx[1]
-#     for i in 2:length(x)
-#         product = t * product + fx[i]
-#     end
-#     return product
-# end
+# Jędrzej Sajnóg 279701
 
 function warNewton(x::Vector{Float64}, fx::Vector{Float64}, t::Float64)
     product = fx[length(fx)]

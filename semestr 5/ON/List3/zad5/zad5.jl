@@ -1,3 +1,6 @@
+#Jędrzej Sajnóg, indeks: 279701
+
+
 include("../approx_module/approx_module.jl")
 using .ApproxTools
 const AT = ApproxTools

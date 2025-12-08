@@ -1,3 +1,5 @@
+#Jędrzej Sajnóg, indeks: 279701
+
 module ApproxTools
 export  mbisekcji, msiecznych, mstycznych
 

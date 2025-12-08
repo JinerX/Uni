@@ -1,0 +1,1008 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> input
+Rule 1     input -> <empty>
+Rule 2     input -> input line
+Rule 3     line -> NL
+Rule 4     line -> expr NL
+Rule 5     line -> expr symbol NL
+Rule 6     line -> ERR_INV_CHAR NL
+Rule 7     line -> ERR_OPS NL
+Rule 8     line -> ERR_NUMS NL
+Rule 9     line -> error NL
+Rule 10    expr -> expr PLUS expr
+Rule 11    expr -> expr MINUS expr
+Rule 12    expr -> expr TIMES expr
+Rule 13    expr -> expr DIVIDE expr
+Rule 14    expr -> expr POWER expr-no-exp
+Rule 15    expr -> LEFT expr RIGHT
+Rule 16    expr -> NUMBER
+Rule 17    expr -> MINUS NUMBER
+Rule 18    expr-no-exp -> expr-no-exp PLUS expr-no-exp
+Rule 19    expr-no-exp -> expr-no-exp MINUS expr-no-exp
+Rule 20    expr-no-exp -> expr-no-exp TIMES expr-no-exp
+Rule 21    expr-no-exp -> expr-no-exp DIVIDE expr-no-exp
+Rule 22    expr-no-exp -> expr-no-exp POWER expr-no-exp
+Rule 23    expr-no-exp -> LEFT expr-no-exp RIGHT
+Rule 24    expr-no-exp -> NUMBER
+Rule 25    expr-no-exp -> MINUS NUMBER
+Rule 26    symbol -> PLUS
+Rule 27    symbol -> MINUS
+Rule 28    symbol -> TIMES
+Rule 29    symbol -> DIVIDE
+Rule 30    symbol -> POWER
+Rule 31    symbol -> LEFT
+Rule 32    symbol -> RIGHT
+
+Terminals, with rules where they appear
+
+DIVIDE               : 13 21 29
+ERR_INV_CHAR         : 6
+ERR_NUMS             : 8
+ERR_OPS              : 7
+LEFT                 : 15 23 31
+MINUS                : 11 17 19 25 27
+NL                   : 3 4 5 6 7 8 9
+NUMBER               : 16 17 24 25
+PLUS                 : 10 18 26
+POWER                : 14 22 30
+RIGHT                : 15 23 32
+TIMES                : 12 20 28
+error                : 9
+
+Nonterminals, with rules where they appear
+
+expr                 : 4 5 10 10 11 11 12 12 13 13 14 15
+expr-no-exp          : 14 18 18 19 19 20 20 21 21 22 22 23
+input                : 2 0
+line                 : 2
+symbol               : 5
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . input
+    (1) input -> .
+    (2) input -> . input line
+
+    NL              reduce using rule 1 (input -> .)
+    ERR_INV_CHAR    reduce using rule 1 (input -> .)
+    ERR_OPS         reduce using rule 1 (input -> .)
+    ERR_NUMS        reduce using rule 1 (input -> .)
+    error           reduce using rule 1 (input -> .)
+    LEFT            reduce using rule 1 (input -> .)
+    NUMBER          reduce using rule 1 (input -> .)
+    MINUS           reduce using rule 1 (input -> .)
+    $end            reduce using rule 1 (input -> .)
+
+    input                          shift and go to state 1
+
+state 1
+
+    (0) S' -> input .
+    (2) input -> input . line
+    (3) line -> . NL
+    (4) line -> . expr NL
+    (5) line -> . expr symbol NL
+    (6) line -> . ERR_INV_CHAR NL
+    (7) line -> . ERR_OPS NL
+    (8) line -> . ERR_NUMS NL
+    (9) line -> . error NL
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    NL              shift and go to state 3
+    ERR_INV_CHAR    shift and go to state 5
+    ERR_OPS         shift and go to state 6
+    ERR_NUMS        shift and go to state 7
+    error           shift and go to state 8
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    line                           shift and go to state 2
+    expr                           shift and go to state 4
+
+state 2
+
+    (2) input -> input line .
+
+    NL              reduce using rule 2 (input -> input line .)
+    ERR_INV_CHAR    reduce using rule 2 (input -> input line .)
+    ERR_OPS         reduce using rule 2 (input -> input line .)
+    ERR_NUMS        reduce using rule 2 (input -> input line .)
+    error           reduce using rule 2 (input -> input line .)
+    LEFT            reduce using rule 2 (input -> input line .)
+    NUMBER          reduce using rule 2 (input -> input line .)
+    MINUS           reduce using rule 2 (input -> input line .)
+    $end            reduce using rule 2 (input -> input line .)
+
+
+state 3
+
+    (3) line -> NL .
+
+    NL              reduce using rule 3 (line -> NL .)
+    ERR_INV_CHAR    reduce using rule 3 (line -> NL .)
+    ERR_OPS         reduce using rule 3 (line -> NL .)
+    ERR_NUMS        reduce using rule 3 (line -> NL .)
+    error           reduce using rule 3 (line -> NL .)
+    LEFT            reduce using rule 3 (line -> NL .)
+    NUMBER          reduce using rule 3 (line -> NL .)
+    MINUS           reduce using rule 3 (line -> NL .)
+    $end            reduce using rule 3 (line -> NL .)
+
+
+state 4
+
+    (4) line -> expr . NL
+    (5) line -> expr . symbol NL
+    (10) expr -> expr . PLUS expr
+    (11) expr -> expr . MINUS expr
+    (12) expr -> expr . TIMES expr
+    (13) expr -> expr . DIVIDE expr
+    (14) expr -> expr . POWER expr-no-exp
+    (26) symbol -> . PLUS
+    (27) symbol -> . MINUS
+    (28) symbol -> . TIMES
+    (29) symbol -> . DIVIDE
+    (30) symbol -> . POWER
+    (31) symbol -> . LEFT
+    (32) symbol -> . RIGHT
+
+    NL              shift and go to state 12
+    PLUS            shift and go to state 14
+    MINUS           shift and go to state 15
+    TIMES           shift and go to state 16
+    DIVIDE          shift and go to state 17
+    POWER           shift and go to state 18
+    LEFT            shift and go to state 19
+    RIGHT           shift and go to state 20
+
+    symbol                         shift and go to state 13
+
+state 5
+
+    (6) line -> ERR_INV_CHAR . NL
+
+    NL              shift and go to state 21
+
+
+state 6
+
+    (7) line -> ERR_OPS . NL
+
+    NL              shift and go to state 22
+
+
+state 7
+
+    (8) line -> ERR_NUMS . NL
+
+    NL              shift and go to state 23
+
+
+state 8
+
+    (9) line -> error . NL
+
+    NL              shift and go to state 24
+
+
+state 9
+
+    (17) expr -> MINUS . NUMBER
+
+    NUMBER          shift and go to state 25
+
+
+state 10
+
+    (15) expr -> LEFT . expr RIGHT
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 26
+
+state 11
+
+    (16) expr -> NUMBER .
+
+    NL              reduce using rule 16 (expr -> NUMBER .)
+    PLUS            reduce using rule 16 (expr -> NUMBER .)
+    MINUS           reduce using rule 16 (expr -> NUMBER .)
+    TIMES           reduce using rule 16 (expr -> NUMBER .)
+    DIVIDE          reduce using rule 16 (expr -> NUMBER .)
+    POWER           reduce using rule 16 (expr -> NUMBER .)
+    LEFT            reduce using rule 16 (expr -> NUMBER .)
+    RIGHT           reduce using rule 16 (expr -> NUMBER .)
+
+
+state 12
+
+    (4) line -> expr NL .
+
+    NL              reduce using rule 4 (line -> expr NL .)
+    ERR_INV_CHAR    reduce using rule 4 (line -> expr NL .)
+    ERR_OPS         reduce using rule 4 (line -> expr NL .)
+    ERR_NUMS        reduce using rule 4 (line -> expr NL .)
+    error           reduce using rule 4 (line -> expr NL .)
+    LEFT            reduce using rule 4 (line -> expr NL .)
+    NUMBER          reduce using rule 4 (line -> expr NL .)
+    MINUS           reduce using rule 4 (line -> expr NL .)
+    $end            reduce using rule 4 (line -> expr NL .)
+
+
+state 13
+
+    (5) line -> expr symbol . NL
+
+    NL              shift and go to state 27
+
+
+state 14
+
+    (10) expr -> expr PLUS . expr
+    (26) symbol -> PLUS .
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    NL              reduce using rule 26 (symbol -> PLUS .)
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 28
+
+state 15
+
+    (11) expr -> expr MINUS . expr
+    (27) symbol -> MINUS .
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    NL              reduce using rule 27 (symbol -> MINUS .)
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 29
+
+state 16
+
+    (12) expr -> expr TIMES . expr
+    (28) symbol -> TIMES .
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    NL              reduce using rule 28 (symbol -> TIMES .)
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 30
+
+state 17
+
+    (13) expr -> expr DIVIDE . expr
+    (29) symbol -> DIVIDE .
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    NL              reduce using rule 29 (symbol -> DIVIDE .)
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 31
+
+state 18
+
+    (14) expr -> expr POWER . expr-no-exp
+    (30) symbol -> POWER .
+    (18) expr-no-exp -> . expr-no-exp PLUS expr-no-exp
+    (19) expr-no-exp -> . expr-no-exp MINUS expr-no-exp
+    (20) expr-no-exp -> . expr-no-exp TIMES expr-no-exp
+    (21) expr-no-exp -> . expr-no-exp DIVIDE expr-no-exp
+    (22) expr-no-exp -> . expr-no-exp POWER expr-no-exp
+    (23) expr-no-exp -> . LEFT expr-no-exp RIGHT
+    (24) expr-no-exp -> . NUMBER
+    (25) expr-no-exp -> . MINUS NUMBER
+
+    NL              reduce using rule 30 (symbol -> POWER .)
+    LEFT            shift and go to state 34
+    NUMBER          shift and go to state 35
+    MINUS           shift and go to state 33
+
+    expr-no-exp                    shift and go to state 32
+
+state 19
+
+    (31) symbol -> LEFT .
+
+    NL              reduce using rule 31 (symbol -> LEFT .)
+
+
+state 20
+
+    (32) symbol -> RIGHT .
+
+    NL              reduce using rule 32 (symbol -> RIGHT .)
+
+
+state 21
+
+    (6) line -> ERR_INV_CHAR NL .
+
+    NL              reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+    ERR_INV_CHAR    reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+    ERR_OPS         reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+    ERR_NUMS        reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+    error           reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+    LEFT            reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+    NUMBER          reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+    MINUS           reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+    $end            reduce using rule 6 (line -> ERR_INV_CHAR NL .)
+
+
+state 22
+
+    (7) line -> ERR_OPS NL .
+
+    NL              reduce using rule 7 (line -> ERR_OPS NL .)
+    ERR_INV_CHAR    reduce using rule 7 (line -> ERR_OPS NL .)
+    ERR_OPS         reduce using rule 7 (line -> ERR_OPS NL .)
+    ERR_NUMS        reduce using rule 7 (line -> ERR_OPS NL .)
+    error           reduce using rule 7 (line -> ERR_OPS NL .)
+    LEFT            reduce using rule 7 (line -> ERR_OPS NL .)
+    NUMBER          reduce using rule 7 (line -> ERR_OPS NL .)
+    MINUS           reduce using rule 7 (line -> ERR_OPS NL .)
+    $end            reduce using rule 7 (line -> ERR_OPS NL .)
+
+
+state 23
+
+    (8) line -> ERR_NUMS NL .
+
+    NL              reduce using rule 8 (line -> ERR_NUMS NL .)
+    ERR_INV_CHAR    reduce using rule 8 (line -> ERR_NUMS NL .)
+    ERR_OPS         reduce using rule 8 (line -> ERR_NUMS NL .)
+    ERR_NUMS        reduce using rule 8 (line -> ERR_NUMS NL .)
+    error           reduce using rule 8 (line -> ERR_NUMS NL .)
+    LEFT            reduce using rule 8 (line -> ERR_NUMS NL .)
+    NUMBER          reduce using rule 8 (line -> ERR_NUMS NL .)
+    MINUS           reduce using rule 8 (line -> ERR_NUMS NL .)
+    $end            reduce using rule 8 (line -> ERR_NUMS NL .)
+
+
+state 24
+
+    (9) line -> error NL .
+
+    NL              reduce using rule 9 (line -> error NL .)
+    ERR_INV_CHAR    reduce using rule 9 (line -> error NL .)
+    ERR_OPS         reduce using rule 9 (line -> error NL .)
+    ERR_NUMS        reduce using rule 9 (line -> error NL .)
+    error           reduce using rule 9 (line -> error NL .)
+    LEFT            reduce using rule 9 (line -> error NL .)
+    NUMBER          reduce using rule 9 (line -> error NL .)
+    MINUS           reduce using rule 9 (line -> error NL .)
+    $end            reduce using rule 9 (line -> error NL .)
+
+
+state 25
+
+    (17) expr -> MINUS NUMBER .
+
+    NL              reduce using rule 17 (expr -> MINUS NUMBER .)
+    PLUS            reduce using rule 17 (expr -> MINUS NUMBER .)
+    MINUS           reduce using rule 17 (expr -> MINUS NUMBER .)
+    TIMES           reduce using rule 17 (expr -> MINUS NUMBER .)
+    DIVIDE          reduce using rule 17 (expr -> MINUS NUMBER .)
+    POWER           reduce using rule 17 (expr -> MINUS NUMBER .)
+    LEFT            reduce using rule 17 (expr -> MINUS NUMBER .)
+    RIGHT           reduce using rule 17 (expr -> MINUS NUMBER .)
+
+
+state 26
+
+    (15) expr -> LEFT expr . RIGHT
+    (10) expr -> expr . PLUS expr
+    (11) expr -> expr . MINUS expr
+    (12) expr -> expr . TIMES expr
+    (13) expr -> expr . DIVIDE expr
+    (14) expr -> expr . POWER expr-no-exp
+
+    RIGHT           shift and go to state 36
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    TIMES           shift and go to state 39
+    DIVIDE          shift and go to state 40
+    POWER           shift and go to state 41
+
+
+state 27
+
+    (5) line -> expr symbol NL .
+
+    NL              reduce using rule 5 (line -> expr symbol NL .)
+    ERR_INV_CHAR    reduce using rule 5 (line -> expr symbol NL .)
+    ERR_OPS         reduce using rule 5 (line -> expr symbol NL .)
+    ERR_NUMS        reduce using rule 5 (line -> expr symbol NL .)
+    error           reduce using rule 5 (line -> expr symbol NL .)
+    LEFT            reduce using rule 5 (line -> expr symbol NL .)
+    NUMBER          reduce using rule 5 (line -> expr symbol NL .)
+    MINUS           reduce using rule 5 (line -> expr symbol NL .)
+    $end            reduce using rule 5 (line -> expr symbol NL .)
+
+
+state 28
+
+    (10) expr -> expr PLUS expr .
+    (10) expr -> expr . PLUS expr
+    (11) expr -> expr . MINUS expr
+    (12) expr -> expr . TIMES expr
+    (13) expr -> expr . DIVIDE expr
+    (14) expr -> expr . POWER expr-no-exp
+
+    NL              reduce using rule 10 (expr -> expr PLUS expr .)
+    PLUS            reduce using rule 10 (expr -> expr PLUS expr .)
+    MINUS           reduce using rule 10 (expr -> expr PLUS expr .)
+    LEFT            reduce using rule 10 (expr -> expr PLUS expr .)
+    RIGHT           reduce using rule 10 (expr -> expr PLUS expr .)
+    TIMES           shift and go to state 39
+    DIVIDE          shift and go to state 40
+    POWER           shift and go to state 41
+
+  ! TIMES           [ reduce using rule 10 (expr -> expr PLUS expr .) ]
+  ! DIVIDE          [ reduce using rule 10 (expr -> expr PLUS expr .) ]
+  ! POWER           [ reduce using rule 10 (expr -> expr PLUS expr .) ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+
+
+state 29
+
+    (11) expr -> expr MINUS expr .
+    (10) expr -> expr . PLUS expr
+    (11) expr -> expr . MINUS expr
+    (12) expr -> expr . TIMES expr
+    (13) expr -> expr . DIVIDE expr
+    (14) expr -> expr . POWER expr-no-exp
+
+    NL              reduce using rule 11 (expr -> expr MINUS expr .)
+    PLUS            reduce using rule 11 (expr -> expr MINUS expr .)
+    MINUS           reduce using rule 11 (expr -> expr MINUS expr .)
+    LEFT            reduce using rule 11 (expr -> expr MINUS expr .)
+    RIGHT           reduce using rule 11 (expr -> expr MINUS expr .)
+    TIMES           shift and go to state 39
+    DIVIDE          shift and go to state 40
+    POWER           shift and go to state 41
+
+  ! TIMES           [ reduce using rule 11 (expr -> expr MINUS expr .) ]
+  ! DIVIDE          [ reduce using rule 11 (expr -> expr MINUS expr .) ]
+  ! POWER           [ reduce using rule 11 (expr -> expr MINUS expr .) ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+
+
+state 30
+
+    (12) expr -> expr TIMES expr .
+    (10) expr -> expr . PLUS expr
+    (11) expr -> expr . MINUS expr
+    (12) expr -> expr . TIMES expr
+    (13) expr -> expr . DIVIDE expr
+    (14) expr -> expr . POWER expr-no-exp
+
+    NL              reduce using rule 12 (expr -> expr TIMES expr .)
+    PLUS            reduce using rule 12 (expr -> expr TIMES expr .)
+    MINUS           reduce using rule 12 (expr -> expr TIMES expr .)
+    TIMES           reduce using rule 12 (expr -> expr TIMES expr .)
+    DIVIDE          reduce using rule 12 (expr -> expr TIMES expr .)
+    LEFT            reduce using rule 12 (expr -> expr TIMES expr .)
+    RIGHT           reduce using rule 12 (expr -> expr TIMES expr .)
+    POWER           shift and go to state 41
+
+  ! POWER           [ reduce using rule 12 (expr -> expr TIMES expr .) ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+  ! TIMES           [ shift and go to state 39 ]
+  ! DIVIDE          [ shift and go to state 40 ]
+
+
+state 31
+
+    (13) expr -> expr DIVIDE expr .
+    (10) expr -> expr . PLUS expr
+    (11) expr -> expr . MINUS expr
+    (12) expr -> expr . TIMES expr
+    (13) expr -> expr . DIVIDE expr
+    (14) expr -> expr . POWER expr-no-exp
+
+    NL              reduce using rule 13 (expr -> expr DIVIDE expr .)
+    PLUS            reduce using rule 13 (expr -> expr DIVIDE expr .)
+    MINUS           reduce using rule 13 (expr -> expr DIVIDE expr .)
+    TIMES           reduce using rule 13 (expr -> expr DIVIDE expr .)
+    DIVIDE          reduce using rule 13 (expr -> expr DIVIDE expr .)
+    LEFT            reduce using rule 13 (expr -> expr DIVIDE expr .)
+    RIGHT           reduce using rule 13 (expr -> expr DIVIDE expr .)
+    POWER           shift and go to state 41
+
+  ! POWER           [ reduce using rule 13 (expr -> expr DIVIDE expr .) ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+  ! TIMES           [ shift and go to state 39 ]
+  ! DIVIDE          [ shift and go to state 40 ]
+
+
+state 32
+
+    (14) expr -> expr POWER expr-no-exp .
+    (18) expr-no-exp -> expr-no-exp . PLUS expr-no-exp
+    (19) expr-no-exp -> expr-no-exp . MINUS expr-no-exp
+    (20) expr-no-exp -> expr-no-exp . TIMES expr-no-exp
+    (21) expr-no-exp -> expr-no-exp . DIVIDE expr-no-exp
+    (22) expr-no-exp -> expr-no-exp . POWER expr-no-exp
+
+    NL              reduce using rule 14 (expr -> expr POWER expr-no-exp .)
+    PLUS            reduce using rule 14 (expr -> expr POWER expr-no-exp .)
+    MINUS           reduce using rule 14 (expr -> expr POWER expr-no-exp .)
+    TIMES           reduce using rule 14 (expr -> expr POWER expr-no-exp .)
+    DIVIDE          reduce using rule 14 (expr -> expr POWER expr-no-exp .)
+    LEFT            reduce using rule 14 (expr -> expr POWER expr-no-exp .)
+    RIGHT           reduce using rule 14 (expr -> expr POWER expr-no-exp .)
+    POWER           shift and go to state 42
+
+  ! POWER           [ reduce using rule 14 (expr -> expr POWER expr-no-exp .) ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+  ! TIMES           [ shift and go to state 45 ]
+  ! DIVIDE          [ shift and go to state 46 ]
+
+
+state 33
+
+    (25) expr-no-exp -> MINUS . NUMBER
+
+    NUMBER          shift and go to state 47
+
+
+state 34
+
+    (23) expr-no-exp -> LEFT . expr-no-exp RIGHT
+    (18) expr-no-exp -> . expr-no-exp PLUS expr-no-exp
+    (19) expr-no-exp -> . expr-no-exp MINUS expr-no-exp
+    (20) expr-no-exp -> . expr-no-exp TIMES expr-no-exp
+    (21) expr-no-exp -> . expr-no-exp DIVIDE expr-no-exp
+    (22) expr-no-exp -> . expr-no-exp POWER expr-no-exp
+    (23) expr-no-exp -> . LEFT expr-no-exp RIGHT
+    (24) expr-no-exp -> . NUMBER
+    (25) expr-no-exp -> . MINUS NUMBER
+
+    LEFT            shift and go to state 34
+    NUMBER          shift and go to state 35
+    MINUS           shift and go to state 33
+
+    expr-no-exp                    shift and go to state 48
+
+state 35
+
+    (24) expr-no-exp -> NUMBER .
+
+    PLUS            reduce using rule 24 (expr-no-exp -> NUMBER .)
+    MINUS           reduce using rule 24 (expr-no-exp -> NUMBER .)
+    TIMES           reduce using rule 24 (expr-no-exp -> NUMBER .)
+    DIVIDE          reduce using rule 24 (expr-no-exp -> NUMBER .)
+    POWER           reduce using rule 24 (expr-no-exp -> NUMBER .)
+    NL              reduce using rule 24 (expr-no-exp -> NUMBER .)
+    LEFT            reduce using rule 24 (expr-no-exp -> NUMBER .)
+    RIGHT           reduce using rule 24 (expr-no-exp -> NUMBER .)
+
+
+state 36
+
+    (15) expr -> LEFT expr RIGHT .
+
+    NL              reduce using rule 15 (expr -> LEFT expr RIGHT .)
+    PLUS            reduce using rule 15 (expr -> LEFT expr RIGHT .)
+    MINUS           reduce using rule 15 (expr -> LEFT expr RIGHT .)
+    TIMES           reduce using rule 15 (expr -> LEFT expr RIGHT .)
+    DIVIDE          reduce using rule 15 (expr -> LEFT expr RIGHT .)
+    POWER           reduce using rule 15 (expr -> LEFT expr RIGHT .)
+    LEFT            reduce using rule 15 (expr -> LEFT expr RIGHT .)
+    RIGHT           reduce using rule 15 (expr -> LEFT expr RIGHT .)
+
+
+state 37
+
+    (10) expr -> expr PLUS . expr
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 28
+
+state 38
+
+    (11) expr -> expr MINUS . expr
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 29
+
+state 39
+
+    (12) expr -> expr TIMES . expr
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 30
+
+state 40
+
+    (13) expr -> expr DIVIDE . expr
+    (10) expr -> . expr PLUS expr
+    (11) expr -> . expr MINUS expr
+    (12) expr -> . expr TIMES expr
+    (13) expr -> . expr DIVIDE expr
+    (14) expr -> . expr POWER expr-no-exp
+    (15) expr -> . LEFT expr RIGHT
+    (16) expr -> . NUMBER
+    (17) expr -> . MINUS NUMBER
+
+    LEFT            shift and go to state 10
+    NUMBER          shift and go to state 11
+    MINUS           shift and go to state 9
+
+    expr                           shift and go to state 31
+
+state 41
+
+    (14) expr -> expr POWER . expr-no-exp
+    (18) expr-no-exp -> . expr-no-exp PLUS expr-no-exp
+    (19) expr-no-exp -> . expr-no-exp MINUS expr-no-exp
+    (20) expr-no-exp -> . expr-no-exp TIMES expr-no-exp
+    (21) expr-no-exp -> . expr-no-exp DIVIDE expr-no-exp
+    (22) expr-no-exp -> . expr-no-exp POWER expr-no-exp
+    (23) expr-no-exp -> . LEFT expr-no-exp RIGHT
+    (24) expr-no-exp -> . NUMBER
+    (25) expr-no-exp -> . MINUS NUMBER
+
+    LEFT            shift and go to state 34
+    NUMBER          shift and go to state 35
+    MINUS           shift and go to state 33
+
+    expr-no-exp                    shift and go to state 32
+
+state 42
+
+    (22) expr-no-exp -> expr-no-exp POWER . expr-no-exp
+    (18) expr-no-exp -> . expr-no-exp PLUS expr-no-exp
+    (19) expr-no-exp -> . expr-no-exp MINUS expr-no-exp
+    (20) expr-no-exp -> . expr-no-exp TIMES expr-no-exp
+    (21) expr-no-exp -> . expr-no-exp DIVIDE expr-no-exp
+    (22) expr-no-exp -> . expr-no-exp POWER expr-no-exp
+    (23) expr-no-exp -> . LEFT expr-no-exp RIGHT
+    (24) expr-no-exp -> . NUMBER
+    (25) expr-no-exp -> . MINUS NUMBER
+
+    LEFT            shift and go to state 34
+    NUMBER          shift and go to state 35
+    MINUS           shift and go to state 33
+
+    expr-no-exp                    shift and go to state 49
+
+state 43
+
+    (18) expr-no-exp -> expr-no-exp PLUS . expr-no-exp
+    (18) expr-no-exp -> . expr-no-exp PLUS expr-no-exp
+    (19) expr-no-exp -> . expr-no-exp MINUS expr-no-exp
+    (20) expr-no-exp -> . expr-no-exp TIMES expr-no-exp
+    (21) expr-no-exp -> . expr-no-exp DIVIDE expr-no-exp
+    (22) expr-no-exp -> . expr-no-exp POWER expr-no-exp
+    (23) expr-no-exp -> . LEFT expr-no-exp RIGHT
+    (24) expr-no-exp -> . NUMBER
+    (25) expr-no-exp -> . MINUS NUMBER
+
+    LEFT            shift and go to state 34
+    NUMBER          shift and go to state 35
+    MINUS           shift and go to state 33
+
+    expr-no-exp                    shift and go to state 50
+
+state 44
+
+    (19) expr-no-exp -> expr-no-exp MINUS . expr-no-exp
+    (18) expr-no-exp -> . expr-no-exp PLUS expr-no-exp
+    (19) expr-no-exp -> . expr-no-exp MINUS expr-no-exp
+    (20) expr-no-exp -> . expr-no-exp TIMES expr-no-exp
+    (21) expr-no-exp -> . expr-no-exp DIVIDE expr-no-exp
+    (22) expr-no-exp -> . expr-no-exp POWER expr-no-exp
+    (23) expr-no-exp -> . LEFT expr-no-exp RIGHT
+    (24) expr-no-exp -> . NUMBER
+    (25) expr-no-exp -> . MINUS NUMBER
+
+    LEFT            shift and go to state 34
+    NUMBER          shift and go to state 35
+    MINUS           shift and go to state 33
+
+    expr-no-exp                    shift and go to state 51
+
+state 45
+
+    (20) expr-no-exp -> expr-no-exp TIMES . expr-no-exp
+    (18) expr-no-exp -> . expr-no-exp PLUS expr-no-exp
+    (19) expr-no-exp -> . expr-no-exp MINUS expr-no-exp
+    (20) expr-no-exp -> . expr-no-exp TIMES expr-no-exp
+    (21) expr-no-exp -> . expr-no-exp DIVIDE expr-no-exp
+    (22) expr-no-exp -> . expr-no-exp POWER expr-no-exp
+    (23) expr-no-exp -> . LEFT expr-no-exp RIGHT
+    (24) expr-no-exp -> . NUMBER
+    (25) expr-no-exp -> . MINUS NUMBER
+
+    LEFT            shift and go to state 34
+    NUMBER          shift and go to state 35
+    MINUS           shift and go to state 33
+
+    expr-no-exp                    shift and go to state 52
+
+state 46
+
+    (21) expr-no-exp -> expr-no-exp DIVIDE . expr-no-exp
+    (18) expr-no-exp -> . expr-no-exp PLUS expr-no-exp
+    (19) expr-no-exp -> . expr-no-exp MINUS expr-no-exp
+    (20) expr-no-exp -> . expr-no-exp TIMES expr-no-exp
+    (21) expr-no-exp -> . expr-no-exp DIVIDE expr-no-exp
+    (22) expr-no-exp -> . expr-no-exp POWER expr-no-exp
+    (23) expr-no-exp -> . LEFT expr-no-exp RIGHT
+    (24) expr-no-exp -> . NUMBER
+    (25) expr-no-exp -> . MINUS NUMBER
+
+    LEFT            shift and go to state 34
+    NUMBER          shift and go to state 35
+    MINUS           shift and go to state 33
+
+    expr-no-exp                    shift and go to state 53
+
+state 47
+
+    (25) expr-no-exp -> MINUS NUMBER .
+
+    PLUS            reduce using rule 25 (expr-no-exp -> MINUS NUMBER .)
+    MINUS           reduce using rule 25 (expr-no-exp -> MINUS NUMBER .)
+    TIMES           reduce using rule 25 (expr-no-exp -> MINUS NUMBER .)
+    DIVIDE          reduce using rule 25 (expr-no-exp -> MINUS NUMBER .)
+    POWER           reduce using rule 25 (expr-no-exp -> MINUS NUMBER .)
+    NL              reduce using rule 25 (expr-no-exp -> MINUS NUMBER .)
+    LEFT            reduce using rule 25 (expr-no-exp -> MINUS NUMBER .)
+    RIGHT           reduce using rule 25 (expr-no-exp -> MINUS NUMBER .)
+
+
+state 48
+
+    (23) expr-no-exp -> LEFT expr-no-exp . RIGHT
+    (18) expr-no-exp -> expr-no-exp . PLUS expr-no-exp
+    (19) expr-no-exp -> expr-no-exp . MINUS expr-no-exp
+    (20) expr-no-exp -> expr-no-exp . TIMES expr-no-exp
+    (21) expr-no-exp -> expr-no-exp . DIVIDE expr-no-exp
+    (22) expr-no-exp -> expr-no-exp . POWER expr-no-exp
+
+    RIGHT           shift and go to state 54
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+    POWER           shift and go to state 42
+
+
+state 49
+
+    (22) expr-no-exp -> expr-no-exp POWER expr-no-exp .
+    (18) expr-no-exp -> expr-no-exp . PLUS expr-no-exp
+    (19) expr-no-exp -> expr-no-exp . MINUS expr-no-exp
+    (20) expr-no-exp -> expr-no-exp . TIMES expr-no-exp
+    (21) expr-no-exp -> expr-no-exp . DIVIDE expr-no-exp
+    (22) expr-no-exp -> expr-no-exp . POWER expr-no-exp
+
+    PLUS            reduce using rule 22 (expr-no-exp -> expr-no-exp POWER expr-no-exp .)
+    MINUS           reduce using rule 22 (expr-no-exp -> expr-no-exp POWER expr-no-exp .)
+    TIMES           reduce using rule 22 (expr-no-exp -> expr-no-exp POWER expr-no-exp .)
+    DIVIDE          reduce using rule 22 (expr-no-exp -> expr-no-exp POWER expr-no-exp .)
+    NL              reduce using rule 22 (expr-no-exp -> expr-no-exp POWER expr-no-exp .)
+    LEFT            reduce using rule 22 (expr-no-exp -> expr-no-exp POWER expr-no-exp .)
+    RIGHT           reduce using rule 22 (expr-no-exp -> expr-no-exp POWER expr-no-exp .)
+    POWER           shift and go to state 42
+
+  ! POWER           [ reduce using rule 22 (expr-no-exp -> expr-no-exp POWER expr-no-exp .) ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+  ! TIMES           [ shift and go to state 45 ]
+  ! DIVIDE          [ shift and go to state 46 ]
+
+
+state 50
+
+    (18) expr-no-exp -> expr-no-exp PLUS expr-no-exp .
+    (18) expr-no-exp -> expr-no-exp . PLUS expr-no-exp
+    (19) expr-no-exp -> expr-no-exp . MINUS expr-no-exp
+    (20) expr-no-exp -> expr-no-exp . TIMES expr-no-exp
+    (21) expr-no-exp -> expr-no-exp . DIVIDE expr-no-exp
+    (22) expr-no-exp -> expr-no-exp . POWER expr-no-exp
+
+    PLUS            reduce using rule 18 (expr-no-exp -> expr-no-exp PLUS expr-no-exp .)
+    MINUS           reduce using rule 18 (expr-no-exp -> expr-no-exp PLUS expr-no-exp .)
+    NL              reduce using rule 18 (expr-no-exp -> expr-no-exp PLUS expr-no-exp .)
+    LEFT            reduce using rule 18 (expr-no-exp -> expr-no-exp PLUS expr-no-exp .)
+    RIGHT           reduce using rule 18 (expr-no-exp -> expr-no-exp PLUS expr-no-exp .)
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+    POWER           shift and go to state 42
+
+  ! TIMES           [ reduce using rule 18 (expr-no-exp -> expr-no-exp PLUS expr-no-exp .) ]
+  ! DIVIDE          [ reduce using rule 18 (expr-no-exp -> expr-no-exp PLUS expr-no-exp .) ]
+  ! POWER           [ reduce using rule 18 (expr-no-exp -> expr-no-exp PLUS expr-no-exp .) ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+
+
+state 51
+
+    (19) expr-no-exp -> expr-no-exp MINUS expr-no-exp .
+    (18) expr-no-exp -> expr-no-exp . PLUS expr-no-exp
+    (19) expr-no-exp -> expr-no-exp . MINUS expr-no-exp
+    (20) expr-no-exp -> expr-no-exp . TIMES expr-no-exp
+    (21) expr-no-exp -> expr-no-exp . DIVIDE expr-no-exp
+    (22) expr-no-exp -> expr-no-exp . POWER expr-no-exp
+
+    PLUS            reduce using rule 19 (expr-no-exp -> expr-no-exp MINUS expr-no-exp .)
+    MINUS           reduce using rule 19 (expr-no-exp -> expr-no-exp MINUS expr-no-exp .)
+    NL              reduce using rule 19 (expr-no-exp -> expr-no-exp MINUS expr-no-exp .)
+    LEFT            reduce using rule 19 (expr-no-exp -> expr-no-exp MINUS expr-no-exp .)
+    RIGHT           reduce using rule 19 (expr-no-exp -> expr-no-exp MINUS expr-no-exp .)
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+    POWER           shift and go to state 42
+
+  ! TIMES           [ reduce using rule 19 (expr-no-exp -> expr-no-exp MINUS expr-no-exp .) ]
+  ! DIVIDE          [ reduce using rule 19 (expr-no-exp -> expr-no-exp MINUS expr-no-exp .) ]
+  ! POWER           [ reduce using rule 19 (expr-no-exp -> expr-no-exp MINUS expr-no-exp .) ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+
+
+state 52
+
+    (20) expr-no-exp -> expr-no-exp TIMES expr-no-exp .
+    (18) expr-no-exp -> expr-no-exp . PLUS expr-no-exp
+    (19) expr-no-exp -> expr-no-exp . MINUS expr-no-exp
+    (20) expr-no-exp -> expr-no-exp . TIMES expr-no-exp
+    (21) expr-no-exp -> expr-no-exp . DIVIDE expr-no-exp
+    (22) expr-no-exp -> expr-no-exp . POWER expr-no-exp
+
+    PLUS            reduce using rule 20 (expr-no-exp -> expr-no-exp TIMES expr-no-exp .)
+    MINUS           reduce using rule 20 (expr-no-exp -> expr-no-exp TIMES expr-no-exp .)
+    TIMES           reduce using rule 20 (expr-no-exp -> expr-no-exp TIMES expr-no-exp .)
+    DIVIDE          reduce using rule 20 (expr-no-exp -> expr-no-exp TIMES expr-no-exp .)
+    NL              reduce using rule 20 (expr-no-exp -> expr-no-exp TIMES expr-no-exp .)
+    LEFT            reduce using rule 20 (expr-no-exp -> expr-no-exp TIMES expr-no-exp .)
+    RIGHT           reduce using rule 20 (expr-no-exp -> expr-no-exp TIMES expr-no-exp .)
+    POWER           shift and go to state 42
+
+  ! POWER           [ reduce using rule 20 (expr-no-exp -> expr-no-exp TIMES expr-no-exp .) ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+  ! TIMES           [ shift and go to state 45 ]
+  ! DIVIDE          [ shift and go to state 46 ]
+
+
+state 53
+
+    (21) expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .
+    (18) expr-no-exp -> expr-no-exp . PLUS expr-no-exp
+    (19) expr-no-exp -> expr-no-exp . MINUS expr-no-exp
+    (20) expr-no-exp -> expr-no-exp . TIMES expr-no-exp
+    (21) expr-no-exp -> expr-no-exp . DIVIDE expr-no-exp
+    (22) expr-no-exp -> expr-no-exp . POWER expr-no-exp
+
+    PLUS            reduce using rule 21 (expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .)
+    MINUS           reduce using rule 21 (expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .)
+    TIMES           reduce using rule 21 (expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .)
+    DIVIDE          reduce using rule 21 (expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .)
+    NL              reduce using rule 21 (expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .)
+    LEFT            reduce using rule 21 (expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .)
+    RIGHT           reduce using rule 21 (expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .)
+    POWER           shift and go to state 42
+
+  ! POWER           [ reduce using rule 21 (expr-no-exp -> expr-no-exp DIVIDE expr-no-exp .) ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+  ! TIMES           [ shift and go to state 45 ]
+  ! DIVIDE          [ shift and go to state 46 ]
+
+
+state 54
+
+    (23) expr-no-exp -> LEFT expr-no-exp RIGHT .
+
+    PLUS            reduce using rule 23 (expr-no-exp -> LEFT expr-no-exp RIGHT .)
+    MINUS           reduce using rule 23 (expr-no-exp -> LEFT expr-no-exp RIGHT .)
+    TIMES           reduce using rule 23 (expr-no-exp -> LEFT expr-no-exp RIGHT .)
+    DIVIDE          reduce using rule 23 (expr-no-exp -> LEFT expr-no-exp RIGHT .)
+    POWER           reduce using rule 23 (expr-no-exp -> LEFT expr-no-exp RIGHT .)
+    NL              reduce using rule 23 (expr-no-exp -> LEFT expr-no-exp RIGHT .)
+    LEFT            reduce using rule 23 (expr-no-exp -> LEFT expr-no-exp RIGHT .)
+    RIGHT           reduce using rule 23 (expr-no-exp -> LEFT expr-no-exp RIGHT .)
+

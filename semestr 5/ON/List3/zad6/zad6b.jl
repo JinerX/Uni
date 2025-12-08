@@ -1,3 +1,6 @@
+#Jędrzej Sajnóg, indeks: 279701
+
+
 include("../approx_module/approx_module.jl")
 using .ApproxTools
 const AT = ApproxTools
@@ -18,6 +21,7 @@ rn2, vn2, itn2, errn2 = AT.mstycznych(f2,df2, 1.1,δ, ϵ, 100)
 rn23, vn23, itn23, errn23 = AT.mstycznych(f2,df2, 3.0,δ, ϵ, 100)
 rn210, vn210, itn210, errn210 = AT.mstycznych(f2,df2, 10.0,δ, ϵ, 100)
 rn220, vn220, itn220, errn220 = AT.mstycznych(f2,df2, 20.0,δ, ϵ, 100)
+
 
 
 println("========f1=============")

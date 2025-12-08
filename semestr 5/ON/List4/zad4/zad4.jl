@@ -1,3 +1,5 @@
+# Jędrzej Sajnóg 279701
+
 using Plots
 
 function rysujNnfx(f, a::Float64, b::Float64, n::Int, wezly::Symbol = :rownoodlegle, m::Int)

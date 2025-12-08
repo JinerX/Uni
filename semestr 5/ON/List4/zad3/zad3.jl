@@ -1,3 +1,5 @@
+# Jędrzej Sajnóg 279701
+
 function newton_to_natural(c, x)
     n = length(c)
     a = zeros(Float64, n)

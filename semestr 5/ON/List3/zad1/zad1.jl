@@ -1,3 +1,4 @@
+#Jędrzej Sajnóg, indeks: 279701
 
 
 function mbisekcji(f, a::Float64, b::Float64, delta::Float64, epsilon::Float64)

@@ -1,3 +1,4 @@
+#Jędrzej Sajnóg, indeks: 279701
 
 
 function mstycznych(f, df, x0::Float64, delta::Float64, epsilon::Float64, maxit::Int)

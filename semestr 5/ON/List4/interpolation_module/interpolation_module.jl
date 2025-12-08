@@ -1,5 +1,5 @@
 module InterpolationModule
-export ilorazyRoznicowe, warNewton, newton_to_natural, rysujNnfx
+export ilorazyRoznicowe, warNewton, newton_to_natural, rysujNnfx, create_czebyshev_xs, create_uniform_xs
 
 using Plots
 
@@ -44,34 +44,16 @@ function newton_to_natural(c, x)
     return a
 end
 
-
-
-function rysujNnfx(f, a::Float64, b::Float64, n::Int, m::Int, wezly::Symbol = :rownoodlegle)
-    if wezly == :rownoodlegle
-        x = create_uniform_xs(a,b,n)
-    elseif wezly == :czebyszew
-        x = create_czebyshev_xs(n)
-    else 
-        throw(ArgumentError("unknown x creation type"))
+function create_czebyshev_xs(n::Int, a::Float64, b::Float64)
+    xs = []
+    float_n = Float64(n) + 1.0
+    for k in 1:(n+1)
+        push!(xs,  cos((2*k-1)/(2*(float_n))*pi))
     end
-    y = []
-    for _ in 1:length(x)
-        push!(y, f(x))
-    end
-    differences = ilorazyRoznicowe(x, y)
+    mid = 0.5*a + 0.5*b
+    half = 0.5*b - 0.5*a
 
-    plot_x = []
-    plot_y = []
-    h = (b-a)/Float64(m)
-    for k in 1:m
-        curr_x = a + k*h
-        push!(plot_x, curr_x)
-        push!(plot_y, warNewton(x, differences, curr_x))
-    end
-
-    gr()
-    true_func = plot(x,y, label="true function")
-    inter_func = plot(plot_x, plot_y, label="interpolated function")
+    return mid .+ (half .* xs)
 end
 
 function create_uniform_xs(a::Float64, b::Float64 ,n::Int)
@@ -81,19 +63,51 @@ function create_uniform_xs(a::Float64, b::Float64 ,n::Int)
         b, a = a, b
     end
     h = (b-a)/float_n
-    for k in 1:n
+    for k in 0:n
         push!(xs, a + k*h)
     end
     return xs
 end
 
-function create_czebyshev_xs(n::Int)
-    xs = []
-    float_n = Float64(n)
-    for k in 1:n
-        push!(x,  cos((2*k-1)/(2*float_n)*pi))
+
+function rysujNnfx(f, a::Float64, b::Float64, n::Int, m::Int, wezly::Symbol = :rownoodlegle)
+    if wezly == :rownoodlegle
+        x = create_uniform_xs(a,b,n)
+    elseif wezly == :czebyszew
+        x = create_czebyshev_xs(n,a,b)
+    else 
+        throw(ArgumentError("unknown x creation type"))
     end
-    return xs
+    x = Float64.(x)
+    y = []
+    for x_value in x
+        push!(y, f(x_value))
+    end
+    y = Float64.(y)
+    differences = ilorazyRoznicowe(x, y)
+
+
+    plot_x = []
+    plot_y = []
+    plot_true_y = []
+    h = (b-a)/Float64(m)
+    for k in 0:m
+        curr_x = a + k*h
+        push!(plot_x, curr_x)
+        push!(plot_y, warNewton(x, differences, curr_x))
+        push!(plot_true_y, f(curr_x))
+    end
+
+
+    gr()
+    plot(plot_x,plot_true_y, label="true function")
+    scatter!(x,y,label="points")
+    p = plot!(plot_x, plot_y, label="interpolated function")
+    return p
+    # plot(true_plot, interpolated_plot)
 end
+
+
+
 
 end

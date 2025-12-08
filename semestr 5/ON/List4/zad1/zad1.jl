@@ -1,3 +1,4 @@
+# Jędrzej Sajnóg 279701
 
 function ilorazyRoznicowe(x::Vector{Float64}, f::Vector{Float64})
     differences = copy(f)
