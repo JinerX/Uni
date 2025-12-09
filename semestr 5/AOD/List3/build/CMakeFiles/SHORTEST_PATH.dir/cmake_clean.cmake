@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/SHORTEST_PATH.dir/link.d"
   "CMakeFiles/SHORTEST_PATH.dir/main.cpp.o"
   "CMakeFiles/SHORTEST_PATH.dir/main.cpp.o.d"
   "CMakeFiles/SHORTEST_PATH.dir/src/IO_module.cpp.o"

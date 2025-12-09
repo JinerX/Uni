@@ -8,11 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List3/main.cpp" "CMakeFiles/SHORTEST_PATH.dir/main.cpp.o" "gcc" "CMakeFiles/SHORTEST_PATH.dir/main.cpp.o.d"
-  "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List3/src/IO_module.cpp" "CMakeFiles/SHORTEST_PATH.dir/src/IO_module.cpp.o" "gcc" "CMakeFiles/SHORTEST_PATH.dir/src/IO_module.cpp.o.d"
-  "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List3/src/graph.cpp" "CMakeFiles/SHORTEST_PATH.dir/src/graph.cpp.o" "gcc" "CMakeFiles/SHORTEST_PATH.dir/src/graph.cpp.o.d"
-  "/home/js/Desktop/Studia/Uni/semestr 5/AOD/List3/src/shortest_path.cpp" "CMakeFiles/SHORTEST_PATH.dir/src/shortest_path.cpp.o" "gcc" "CMakeFiles/SHORTEST_PATH.dir/src/shortest_path.cpp.o.d"
-  "" "SHORTEST_PATH" "gcc" "CMakeFiles/SHORTEST_PATH.dir/link.d"
+  "/mnt/c/Users/JS/Desktop/Studia/Uni/semestr 5/AOD/List3/main.cpp" "CMakeFiles/SHORTEST_PATH.dir/main.cpp.o" "gcc" "CMakeFiles/SHORTEST_PATH.dir/main.cpp.o.d"
+  "/mnt/c/Users/JS/Desktop/Studia/Uni/semestr 5/AOD/List3/src/IO_module.cpp" "CMakeFiles/SHORTEST_PATH.dir/src/IO_module.cpp.o" "gcc" "CMakeFiles/SHORTEST_PATH.dir/src/IO_module.cpp.o.d"
+  "/mnt/c/Users/JS/Desktop/Studia/Uni/semestr 5/AOD/List3/src/graph.cpp" "CMakeFiles/SHORTEST_PATH.dir/src/graph.cpp.o" "gcc" "CMakeFiles/SHORTEST_PATH.dir/src/graph.cpp.o.d"
+  "/mnt/c/Users/JS/Desktop/Studia/Uni/semestr 5/AOD/List3/src/shortest_path.cpp" "CMakeFiles/SHORTEST_PATH.dir/src/shortest_path.cpp.o" "gcc" "CMakeFiles/SHORTEST_PATH.dir/src/shortest_path.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

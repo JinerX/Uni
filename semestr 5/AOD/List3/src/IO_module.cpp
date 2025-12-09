@@ -5,6 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cctype>
+#include <iomanip>
 
 // Helper: trim leading spaces (we only need to detect first non-space char)
 static inline std::string ltrim(const std::string &s) {
@@ -136,7 +137,6 @@ bool load_gr(const std::string &path, Graph &g) {
     return true;
 }
 
-
 bool load_ss(const std::string &path, std::vector<int> &sources) {
     std::ifstream in(path);
     if (!in) {
@@ -260,5 +260,115 @@ bool load_p2p(const std::string &path, std::vector<std::tuple<int,int>> &pairs) 
                   << " but parsed = " << pairs.size() << '\n';
     }
 
+    return true;
+}
+
+bool save_ss(const std::string &path,
+             std::vector<simResult>& simulation_results,
+             const std::string& gr_file,
+             const std::string& ss_file)
+{
+    if (simulation_results.empty()) {
+        std::cerr << "save_ss: no simulation results to save\n";
+        return false;
+    }
+
+    std::ofstream out(path);
+    if (!out) {
+        std::cerr << "save_ss: cannot open output file: " << path << "\n";
+        return false;
+    }
+
+    // Representative metadata from first result
+    const simResult &r0 = simulation_results.front();
+    std::string alg = r0.type.empty() ? "unknown" : r0.type;
+
+    // Header (matches example structure)
+    out << "c plik wynikowy dla problemu\n";
+    out << "c najkrotszych sciezek z jednym zrodlem.\n";
+    out << "c\n";
+    out << "p res sp ss " << alg << "\n";
+    out << "c --------------------------------------------------------------\n";
+    out << "c\n";
+
+    // 'f' line with original filenames
+    out << "c wyniki testu dla sieci zadanej w pliku " << gr_file << "\n";
+    out << "c i zrodel " << ss_file << ":\n";
+    out << "f " << gr_file << " " << ss_file << "\n";
+    out << "c\n";
+
+    // Graph summary line: g <n> <m> <minCost> <maxCost>
+    out << "c siec sklada sie z " << r0.v << " wierzcholkow, " << r0.e << " lukow,\n";
+    out << "c koszty naleza do przedzialu [" << r0.minCost << "," << r0.maxCost << "]:\n";
+    out << "g " << r0.v << " " << r0.e << " " << r0.minCost << " " << r0.maxCost << "\n";
+    out << "c\n";
+
+    // Average time (in milliseconds) across all simulation_results
+    double sum_ms = 0.0;
+    for (const auto &r : simulation_results) {
+        sum_ms += static_cast<double>(r.time.count());
+    }
+    double avg_ms = sum_ms / static_cast<double>(simulation_results.size());
+
+    out << "c\n";
+    out << "c sredni czas wyznaczenia najkrotszych sciezek miedzy zrodlem\n";
+    out << "c a wszystkimi wierzcholkami wynosi " << std::fixed << std::setprecision(2) << avg_ms << " msec:\n";
+    out << "t " << std::fixed << std::setprecision(2) << avg_ms << "\n";
+
+    out.close();
+    return true;
+}
+
+
+bool save_p2p(const std::string &path,
+              std::vector<simResult>& simulation_results,
+              const std::string& gr_file,
+              const std::string& p2p_file)
+{
+    if (simulation_results.empty()) {
+        std::cerr << "save_p2p: no simulation results to save\n";
+        return false;
+    }
+
+    std::ofstream out(path);
+    if (!out) {
+        std::cerr << "save_p2p: cannot open output file: " << path << "\n";
+        return false;
+    }
+
+    // Representative metadata from first result
+    const simResult &r0 = simulation_results.front();
+    std::string alg = r0.type.empty() ? "unknown" : r0.type;
+
+    // Header (matches example structure)
+    out << "c plik wynikowy dla problemu\n";
+    out << "c najkrotszej sciezki miedzy para wierzcholkow.\n";
+    out << "c\n";
+    out << "c wyniki testu dla sieci zadanej w pliku " << gr_file << "\n";
+    out << "c i par zrodlo-ujscie podanych w pliku " << p2p_file << ":\n";
+    out << "f " << gr_file << " " << p2p_file << "\n";
+    out << "c\n";
+
+    out << "c siec sklada sie z " << r0.v << " wierzcholkow, " << r0.e << " lukow,\n";
+    out << "c koszty naleza do przedzialu [" << r0.minCost << "," << r0.maxCost << "]:\n";
+    out << "g " << r0.v << " " << r0.e << " " << r0.minCost << " " << r0.maxCost << "\n";
+    out << "c\n";
+    out << "c dlugosci najkrotszych sciezek\n";
+    out << "c (format: d <from> <to> <length>)\n";
+
+    // Write each pair result. Convert node indices from 0-based (internal) to 1-based (output)
+    for (const auto &r : simulation_results) {
+        int from = r.start;
+        int to   = r.end;
+        int length = r.length; // -1 indicates no path / unreachable
+
+        // convert to 1-based for output
+        int out_from = (from >= 0) ? (from + 1) : -1;
+        int out_to   = (to   >= 0) ? (to   + 1) : -1;
+
+        out << "d " << out_from << " " << out_to << " " << length << "\n";
+    }
+
+    out.close();
     return true;
 }

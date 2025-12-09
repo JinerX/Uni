@@ -224,6 +224,12 @@ int main(int argc, char* argv[]) {
         // Print results returned by simulation
         print_sim_results(results);
 
+        if (!save_ss(oss_file, results, data_file, ss_file)) {
+            std::cerr << "Error: save_ss failed for file: " << oss_file << "\n";
+            return 20;
+        }
+        std::cout << "DEBUG: Results saved to " << oss_file << "\n";
+
         std::cout << "DEBUG: (placeholder) -> run algorithm '" << algorithm << "' for all sources\n";
         // Here you would eventually write results to oss_file
     } else if (has_p2p) {
@@ -274,6 +280,12 @@ int main(int argc, char* argv[]) {
 
         // Print results returned by simulation
         print_sim_results(results);
+        // Save results to output file (write f-line using data_file and p2p_file)
+        if (!save_p2p(op2p_file, results, data_file, p2p_file)) {
+            std::cerr << "Error: save_p2p failed for file: " << op2p_file << "\n";
+            return 21;
+        }
+        std::cout << "DEBUG: Results saved to " << op2p_file << "\n";
 
         std::cout << "DEBUG: (placeholder) -> run algorithm '" << algorithm << "' for pairs\n";
         // Here you would eventually write results to op2p_file
