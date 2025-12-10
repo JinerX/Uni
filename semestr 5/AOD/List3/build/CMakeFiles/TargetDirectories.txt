@@ -1,3 +1,0 @@
-/mnt/c/Users/JS/Desktop/Studia/Uni/semestr 5/AOD/List3/build/CMakeFiles/SHORTEST_PATH.dir
-/mnt/c/Users/JS/Desktop/Studia/Uni/semestr 5/AOD/List3/build/CMakeFiles/edit_cache.dir
-/mnt/c/Users/JS/Desktop/Studia/Uni/semestr 5/AOD/List3/build/CMakeFiles/rebuild_cache.dir
