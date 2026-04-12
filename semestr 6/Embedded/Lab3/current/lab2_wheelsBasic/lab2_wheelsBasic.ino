@@ -1,9 +1,10 @@
 #include "Wheels.h"
-#include "LiquidCrystal_IC2.h"
+#include "LiquidCrystal_I2C.h"
 
 byte LCDAddress = 0x27;
 
 LiquidCrystal_I2C lcd(LCDAddress, 16, 2);
+
 uint8_t arrowRight[8] =
 {
     0b01000,
@@ -16,7 +17,8 @@ uint8_t arrowRight[8] =
     0b01000
 };
 
-int argIn = 0;
+// int argIn = 0;
+
 
 int EnA = 5;
 int EnB = 9;
@@ -25,9 +27,10 @@ int In2 = 7;
 int In3 = 10;
 int In4 = 11;
 
-Wheels w;
+Wheels w(lcd);
 volatile char cmd;
 
+unsigned long myTime;
 
 
 // example move forward move backward in cm
@@ -35,24 +38,44 @@ volatile char cmd;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  Serial.setTimeout(200);
+
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+
+  // lcd.createChar(0, "2");
   w.attach(In4,In3,EnB,In2,In1,EnA);
-  w.goForward(30);
+  // w.startAnimation(lcd);
+  w.goForward(300);
   delay(5000);
-  w.goBack(30);
+  w.goBack(300);
 
 }
 void loop() {
-
+  Serial.print("Time: ");
+  myTime = millis();
+  Serial.println(myTime);
+  delay(1000);
 }
 
 
 
 // code for manual control
 
+
+// int counter = 0;
+// int display = 0;
 // void loop() {
 //   while(Serial.available())
 //   {
 //     cmd = Serial.read();
+//     display = display - 1;
+//     // Wyświetl tekst komendy na LCD
+//     // lcd.clear();
+//     // lcd.setCursor(0,1);
+//     // lcd.print(display, DEC);
+
 //     switch(cmd)
 //     {
 //       case 'w': w.forward(); break;

@@ -134,37 +134,3 @@ for file in p.iterdir():
 
     print(f"Weight of the path which used DFS as heuristic: {dfs_path_cost}")
     plot_path(path=np.array(path_edges), name=f"DFS_heuristic_f={str(file).split('/')[1]}_weight={dfs_path_cost}_no_labels.png")
-
-
-# FILE: data/uy734.tsp
-
-
-# =========GROUPING============
-#  group_n: 10
-
-
-
-# number of mins: (100,)
-
-#  AVG of mins:
-# 1599684.0633452707
-
-
-
-# =========GROUPING============
-#  group_n: 50
-
-
-
-# number of mins: (20,)
-
-#  AVG of mins:
-# 1580002.5548889958
-
-# =========+MINIMUM=========
-# TRUE_MIN: 1551979.0515724104
-
-# file: data/uy734.tsp
-# Weight of MST: 69876.4675185079
-
-# Weight of the path which used DFS as heuristic: 172573.0289851902
