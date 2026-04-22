@@ -1,8 +1,10 @@
 #include "local_search.hpp"
+#include "mst.hpp"
 #include "tsp.hpp"
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -27,7 +29,7 @@ int main(int argc, char* argv[]) {
         }
 
         if (!std::filesystem::exists(input_directory) || !std::filesystem::is_directory(input_directory)) {
-            throw std::runtime_error("Directory does not exist: " + input_directory);
+            throw std::runtime_error("Folder does not exist: " + input_directory);
         }
 
         std::vector<std::filesystem::path> tsp_files;
@@ -40,12 +42,12 @@ int main(int argc, char* argv[]) {
         std::sort(tsp_files.begin(), tsp_files.end());
 
         if (tsp_files.empty()) {
-            throw std::runtime_error("Directory empty: " + input_directory);
+            throw std::runtime_error("Folder is empty: " + input_directory);
         }
 
         std::ofstream out(output_path);
         if (!out) {
-            throw std::runtime_error("Cannot open output file: " + output_path);
+            throw std::runtime_error("Error opening output file" + output_path);
         }
 
         out << std::fixed << std::setprecision(3);
@@ -54,6 +56,9 @@ int main(int argc, char* argv[]) {
             TspInstance instance = load_tsplib(file_path.string());
             const int n = instance.dimension;
 
+            MstResult mst = prim_mst(instance);
+            const int runs = static_cast<int>(std::ceil(std::sqrt(static_cast<double>(n))));
+
             double total_time_ms = 0.0;
             double total_steps = 0.0;
             double total_cost = 0.0;
@@ -61,21 +66,14 @@ int main(int argc, char* argv[]) {
             int best_cost = std::numeric_limits<int>::max();
             std::vector<int> best_tour;
 
-            for (int run = 0; run < n; ++run) {
-                std::vector<int> start_tour = random_permutation(n, rng);
+            std::uniform_int_distribution<int> root_dist(0, n - 1);
+
+            for (int run = 0; run < runs; ++run) {
+                const int root = root_dist(rng);
+                std::vector<int> start_tour = preorder_tour_from_tree(mst.tree, root);
 
                 const auto start = std::chrono::high_resolution_clock::now();
-                
-
-
-                // SearchResult result = local_search_invert_best_improvement(instance, std::move(start_tour));
-
-
-                SearchResult result = local_search_invert_random_sample(
-                    instance,
-                    std::move(start_tour),
-                    rng
-                );
+                SearchResult result = local_search_invert_best_improvement(instance, std::move(start_tour));
                 const auto end = std::chrono::high_resolution_clock::now();
 
                 const double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -93,10 +91,11 @@ int main(int argc, char* argv[]) {
             out << "Instance: " << instance.name << "\n";
             out << "File: " << file_path.filename().string() << "\n";
             out << "Dimension: " << n << "\n";
-            out << "Runs: " << n << "\n";
-            out << "Average solution: " << (total_cost / n) << "\n";
-            out << "Average improvement steps: " << (total_steps / n) << "\n";
-            out << "Average time [ms]: " << (total_time_ms / n) << "\n";
+            out << "MST weight: " << mst.weight << "\n";
+            out << "Runs: " << runs << "\n";
+            out << "Average solution: " << (total_cost / runs) << "\n";
+            out << "Average improvement steps: " << (total_steps / runs) << "\n";
+            out << "Average time [ms]: " << (total_time_ms / runs) << "\n";
             out << "Best solution: " << best_cost << "\n";
             out << "Best tour: ";
 
@@ -110,7 +109,7 @@ int main(int argc, char* argv[]) {
             out << "----------------------------------------\n";
         }
 
-        std::cout << "Finished processing saved to: " << output_path << "\n";
+        std::cout << "Finished, files saved to: " << output_path << "\n";
         return 0;
     }
     catch (const std::exception& e) {

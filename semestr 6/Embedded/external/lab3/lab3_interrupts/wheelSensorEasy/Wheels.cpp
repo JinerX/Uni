@@ -2,9 +2,15 @@
 
 #include "Wheels.h"
 
+//
+//#define SET_MOVEMENT(side,f,b) ( digitalWrite( side[0], f ) ); digitalWrite( side[1], b ) )
 
 #define SET_MOVEMENT(side,f,b) digitalWrite( side[0], f);\
                                digitalWrite( side[1], b)
+//#define HIGH 1
+//#define LOW 0
+
+//#define SET_MOVEMENT(s,f,b) delay(10);
 
 Wheels::Wheels() 
 { }
@@ -98,21 +104,4 @@ void Wheels::stop()
 {
     this->stopLeft();
     this->stopRight();
-}
-
-// Dodane
-
-
-void Wheels::goForward(int cm) {
-    this->setSpeed(200);
-    this->forward();
-    delay(cm*25);
-    this->stop();
-}
-
-void Wheels::goBack(int cm) {
-    this->setSpeed(200);
-    this->back();
-    delay(cm*25);
-    this->stop();
 }

@@ -54,10 +54,12 @@ void Wheels::setSpeed(uint8_t s)
 
 }
 
-void Wheels::attach(int pRF, int pRB, int pRS, int pLF, int pLB, int pLS)
+void Wheels::attach(int pRF, int pRB, int pRS, int pLF, int pLB, int pLS, int speaker_pin)
 {
     this->attachRight(pRF, pRB, pRS);
     this->attachLeft(pLF, pLB, pLS);
+    pinMode(speaker_pin, OUTPUT);
+    this->speaker_pin = speaker_pin;
 }
 
 void Wheels::forwardLeft() 
@@ -67,6 +69,8 @@ void Wheels::forwardLeft()
         this->speed_left = -(this->speed_left);
     }
     this->displayAnimation();
+    Timer1.detachInterrupt();
+
 }
 
 void Wheels::forwardRight() 
@@ -76,6 +80,7 @@ void Wheels::forwardRight()
         this->speed_right = -(this->speed_right);
     }
     this->displayAnimation();
+    Timer1.detachInterrupt();
 
 }
 
@@ -104,6 +109,7 @@ void Wheels::forward()
     this->forwardLeft();
     this->forwardRight();
     this->displayAnimation();
+    Timer1.detachInterrupt();
 
 }
 
@@ -112,7 +118,13 @@ void Wheels::back()
     this->backLeft();
     this->backRight();
     this->displayAnimation();
+    this->TimerUpdate();
+    Timer1.attachInterrupt(this->makeSound(), );
+}
 
+void Wheels::TimerUpdate() {
+    Timer1.detachInterrupt();
+    Timer1.attachInterrupt(this->makeSound, 500/this->speed_left);
 }
 
 void Wheels::stopLeft()
@@ -137,7 +149,7 @@ void Wheels::stop()
     this->stopRight();
     this->lcd.clear();
     this->displayAnimation();
-
+    Timer1.detachInterrupt();
 }
 
 
@@ -262,6 +274,15 @@ void Wheels::displayAnimation() {
 
 }
 
+void Wheels::makeSound() {
+    unsigned long start_time = millis();
+    unsigned long mult = this->speed_left;
+    unsigned long curr_time = start_time;
+    digitalWrite(this->speaker_pin, HIGH);
+    while(curr_time < start_time + 500 / mult)
+        curr_time = millis();
+    digitalWrite(this->speaker_pin, LOW);
+}
 
 
 // void Wheels::startAnimation(LiquidCrystal_I2C lcd) {

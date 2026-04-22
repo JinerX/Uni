@@ -1,15 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(List0_ex1)
+project(List1_ex3)
 
-# Use C standard (optional but recommended)
 set(CMAKE_C_STANDARD 11)
 
-# Include header files
 include_directories(include)
 
-# Collect all source files from src/
-file(GLOB SOURCES "src/*.c")
+file(GLOB SOURCES "src/*.cpp")
 
-# Add executable (main.cpp + all src files)
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
+add_executable(${PROJECT_NAME} main2.cpp ${SOURCES})

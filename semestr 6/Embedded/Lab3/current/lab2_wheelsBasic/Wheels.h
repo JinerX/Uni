@@ -32,7 +32,7 @@ class Wheels {
         void attachRight(int pinForward, int pinBack, int pinSpeed);
         void attachLeft(int pinForward, int pinBack, int pinSpeed);
         void attach(int pinRightForward, int pinRightBack, int pinRightSpeed,
-                    int pinLeftForward, int pinLeftBack, int pinLeftSpeed);
+                    int pinLeftForward, int pinLeftBack, int pinLeftSpeed, int speaker_pin);
         /*
          *  funkcje ruchu
          */
@@ -46,6 +46,8 @@ class Wheels {
         void stopLeft();
         void stopRight();
         void displayAnimation();
+        void TimerUpdate();
+        void makeSound();
 
         /***
          * 
@@ -71,6 +73,7 @@ class Wheels {
     private: 
         int pinsRight[3];
         int pinsLeft[3];
+        int speaker_pin;
 
 };
 

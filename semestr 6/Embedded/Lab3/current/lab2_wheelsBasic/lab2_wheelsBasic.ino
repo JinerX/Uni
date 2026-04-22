@@ -27,6 +27,9 @@ int In2 = 7;
 int In3 = 10;
 int In4 = 11;
 
+int speaker_pin = 8;
+
+
 Wheels w(lcd);
 volatile char cmd;
 
@@ -45,7 +48,7 @@ void setup() {
   lcd.clear();
 
   // lcd.createChar(0, "2");
-  w.attach(In4,In3,EnB,In2,In1,EnA);
+  w.attach(In4,In3,EnB,In2,In1,EnA, speaker_pin);
   // w.startAnimation(lcd);
   w.goForward(300);
   delay(5000);
