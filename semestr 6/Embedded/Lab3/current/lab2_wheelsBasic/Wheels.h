@@ -46,8 +46,6 @@ class Wheels {
         void stopLeft();
         void stopRight();
         void displayAnimation();
-        void TimerUpdate();
-        void makeSound();
 
         /***
          * 
@@ -56,6 +54,8 @@ class Wheels {
          */
         void goForward(int cm);
         void goBack(int cm);
+        static void makeSound();
+        void TimerUpdate();
         
         /*
          *  ustawienie prędkości obrotowej (przez PWM)
@@ -74,7 +74,12 @@ class Wheels {
         int pinsRight[3];
         int pinsLeft[3];
         int speaker_pin;
+        static Wheels* instance;
 
+        volatile bool buzzerOn = false;
+        volatile uint16_t tickCount = 0;
+        uint16_t beepOnTicks = 3;
+        uint16_ beepOffTicks = 20;
 };
 
 

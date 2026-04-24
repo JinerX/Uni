@@ -1,3 +1,5 @@
+#include <TimerOne.h>
+
 #include <Arduino.h>
 
 #include "Wheels.h"
@@ -6,7 +8,11 @@
 #define SET_MOVEMENT(side,f,b) digitalWrite( side[0], f);\
                                digitalWrite( side[1], b)
 
-Wheels::Wheels(LiquidCrystal_I2C& lcd1) : lcd(lcd1) {
+
+Wheels* Wheels::instance = nullptr;
+
+Wheels::Wheels(LiquidCrystal_I2C& lcd1) : lcd(lcd1){
+    instance = this;
 }
 
 void Wheels::attachRight(int pF, int pB, int pS)
@@ -110,6 +116,7 @@ void Wheels::forward()
     this->forwardRight();
     this->displayAnimation();
     Timer1.detachInterrupt();
+    digitalWrite(this->speaker_pin, LOW);
 
 }
 
@@ -119,12 +126,16 @@ void Wheels::back()
     this->backRight();
     this->displayAnimation();
     this->TimerUpdate();
-    Timer1.attachInterrupt(this->makeSound(), );
 }
 
 void Wheels::TimerUpdate() {
+    int speed = abs(this->speed_left);
+    if (speed < 1) {
+        speed = 1;
+    }
+    unsigned long period = map(speed, 60, 255, 400000UL, 1000000UL);
     Timer1.detachInterrupt();
-    Timer1.attachInterrupt(this->makeSound, 500/this->speed_left);
+    Timer1.attachInterrupt(Wheels::makeSound, 1000);
 }
 
 void Wheels::stopLeft()
@@ -148,8 +159,11 @@ void Wheels::stop()
     this->stopLeft();
     this->stopRight();
     this->lcd.clear();
+    digitalWrite(this->speaker_pin, LOW);
     this->displayAnimation();
     Timer1.detachInterrupt();
+    digitalWrite(this->speaker_pin, LOW);
+
 }
 
 
@@ -275,13 +289,9 @@ void Wheels::displayAnimation() {
 }
 
 void Wheels::makeSound() {
-    unsigned long start_time = millis();
-    unsigned long mult = this->speed_left;
-    unsigned long curr_time = start_time;
-    digitalWrite(this->speaker_pin, HIGH);
-    while(curr_time < start_time + 500 / mult)
-        curr_time = millis();
-    digitalWrite(this->speaker_pin, LOW);
+    if (instance == nullptr) return;
+    instance->buzzerState = !instance->buzzerState;
+    digitalWrite(instance->speaker_pin, instance->buzzerState ? HIGH : LOW);
 }
 
 

@@ -50,8 +50,8 @@ void setup() {
   // lcd.createChar(0, "2");
   w.attach(In4,In3,EnB,In2,In1,EnA, speaker_pin);
   // w.startAnimation(lcd);
-  w.goForward(300);
-  delay(5000);
+  w.goForward(30);
+  delay(1000);
   w.goBack(300);
 
 }
