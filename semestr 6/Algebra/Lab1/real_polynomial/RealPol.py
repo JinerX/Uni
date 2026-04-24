@@ -124,7 +124,6 @@ def poly_div_rem(dividend: Polynomial, divisor: Polynomial):
         if deg_r < deg_d:
             break
 
-        # Dla jednego zmiennego monom prowadzący dzieli się zawsze.
         if lm_r[0] < lm_d[0]:
             break
 

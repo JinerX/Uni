@@ -4,8 +4,6 @@ import order.natural_ordering as NO
 
 
 
-# gaussian integers are represented as tuples
-# number a + bi is represented as (a,b)
 
 
 a = 2
@@ -44,11 +42,6 @@ q, r = RP.poly_div_rem(p, divisor)
 print(f"p(x) / (x + 1) => q(x) = {RP.poly_to_str(q)}, r(x) = {RP.poly_to_str(r)}")
 print()
 
-# b) rozszerzony NWD i NWW
-# v(x) = ax^3 + bx^2 + d
-# w(x) = dx^3 + ex^2 + fx
-#
-# wybrano d = 0 oraz g = 0, żeby gcd nie było równe 1
 g = 372.6000597
 
 
