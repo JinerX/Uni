@@ -21,9 +21,6 @@
 
 #define BEEPER 13
 
-#define TICKS_PER_CM  1
-#define TICKS_90DEG   12
-
 
 
 class Wheels {
@@ -59,13 +56,8 @@ class Wheels {
          */
         void goForward(int cm);
         void goBack(int cm);
-        void turnLeft(int deg);
-        void turnRight(int deg);
-        void setupSensors();
         static void makeSound();
         void TimerUpdate();
-
-        static volatile int cnt0, cnt1;
         
         /*
          *  ustawienie prędkości obrotowej (przez PWM)
