@@ -19,11 +19,6 @@
 #ifndef Wheels_h
 #define Wheels_h
 
-#define BEEPER 13
-
-#define TICKS_PER_CM  1
-#define TICKS_90DEG   57
-
 
 
 class Wheels {
@@ -59,13 +54,8 @@ class Wheels {
          */
         void goForward(int cm);
         void goBack(int cm);
-        void turnLeft(int deg);
-        void turnRight(int deg);
-        void setupSensors();
         static void makeSound();
-        // void TimerUpdate();
-
-        static volatile int cnt0, cnt1;
+        void TimerUpdate();
         
         /*
          *  ustawienie prędkości obrotowej (przez PWM)
@@ -80,13 +70,16 @@ class Wheels {
         int speed_left;
         LiquidCrystal_I2C& lcd;
 
-    private:
+    private: 
         int pinsRight[3];
         int pinsLeft[3];
         int speaker_pin;
         static Wheels* instance;
-        bool goingBack = false;
 
+        volatile bool buzzerState = false;
+        volatile uint16_t tickCount = 0;
+        uint16_t beepOnTicks = 3;
+        uint16_t beepOffTicks = 20;
 };
 
 

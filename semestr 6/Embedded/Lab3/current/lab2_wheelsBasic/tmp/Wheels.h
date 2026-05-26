@@ -22,7 +22,7 @@
 #define BEEPER 13
 
 #define TICKS_PER_CM  1
-#define TICKS_90DEG   57
+#define TICKS_90DEG   12
 
 
 
@@ -63,7 +63,7 @@ class Wheels {
         void turnRight(int deg);
         void setupSensors();
         static void makeSound();
-        // void TimerUpdate();
+        void TimerUpdate();
 
         static volatile int cnt0, cnt1;
         

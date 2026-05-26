@@ -5,28 +5,27 @@
 byte LCDAddress = 0x27;
 LiquidCrystal_I2C lcd(LCDAddress, 16, 2);
 
-int EnA = 6;
-int EnB = 5;
-int In1 = 8;
-int In2 = 2;
-int In3 = 4;
-int In4 = 12;
+int EnA = 5;
+int EnB = 9;
+int In1 = 6;
+int In2 = 7;
+int In3 = 10;
+int In4 = 11;
 int speaker_pin = 8;
 
-#define TRIG      A2
-#define ECHO      A3
+#define TRIG      A4
+#define ECHO      A5
 #define SERVO_PIN 3
 
-#define DRIVE_SPEED  200
-#define STOP_DIST    30
-#define TURN_DEG     60
+#define DRIVE_SPEED  150
+#define STOP_DIST    20    // cm - zatrzymaj jesli przeszkoda blizej
+#define TURN_DEG     60    // stopnie obrotu przy omijaniu
 
 Wheels w(lcd);
 Servo serwo;
 
 unsigned int measureDistance();
 unsigned int lookAt(byte angle);
-unsigned int measureAroundDrive();
 
 void setup() {
   Serial.begin(9600);
@@ -35,18 +34,14 @@ void setup() {
   lcd.backlight();
   lcd.clear();
 
-  w.attach(In4, In3, EnB, In2, In1, EnA, speaker_pin);
-  w.setupSensors();
-  w.goForward(30);
-
-
   pinMode(TRIG, OUTPUT);
   pinMode(ECHO, INPUT);
   digitalWrite(TRIG, LOW);
 
+  // w.attach() wywoluje Timer1.initialize() - musi byc przed serwo.attach()
+  // aby Servo moglо pozniej przejac Timer1
   w.attach(In4, In3, EnB, In2, In1, EnA, speaker_pin);
   w.setupSensors();
-  w.goForward(30);
 
   serwo.attach(SERVO_PIN);
   serwo.write(90);   // patrz prosto
@@ -57,32 +52,21 @@ void setup() {
 }
 
 void loop() {
-  // unsigned int dist = measureDistance();
-  unsigned int dist = measureAroundDrive();
-
+  unsigned int dist = measureDistance();
 
   lcd.setCursor(0, 0);
   lcd.print("-> ");
   lcd.print(dist);
   lcd.print("cm    ");
-  Serial.println(dist);
+  Serial.println(dist);   // Kresłarka: odległość w czasie
 
   if (dist > 0 && dist < STOP_DIST) {
     w.stop();
     lcd.clear();
 
     // skanuj lewo i prawo
-    unsigned int dFarLeft  = lookAt(160);
-    unsigned int dLeft  = lookAt(120);
-    unsigned int dRight = lookAt(60);
-    unsigned int dFarRight = lookAt(20);
-    if (dFarLeft < dLeft) {
-      dLeft = dFarLeft;
-    }
-    if (dFarRight < dRight) {
-      dRight = dFarRight;
-    }
-
+    unsigned int dLeft  = lookAt(30);
+    unsigned int dRight = lookAt(150);
     serwo.write(90);
     delay(300);
 
@@ -96,23 +80,12 @@ void loop() {
     Serial.print(" R:");
     Serial.println(dRight);
 
-    delay(100);
+    delay(400);
 
     if (dLeft >= dRight) {
       w.turnLeft(TURN_DEG);
-      dist = measureDistance();
-
-      while (dist < STOP_DIST) {
-        dist = measureDistance();
-        w.turnLeft(TURN_DEG);
-      }
     } else {
       w.turnRight(TURN_DEG);
-      dist = measureDistance();
-      while (dist < STOP_DIST) {
-        dist = measureDistance();
-        w.turnRight(TURN_DEG); 
-      }
     }
 
     lcd.clear();
@@ -130,40 +103,15 @@ unsigned int measureDistance() {
   delayMicroseconds(10);
   digitalWrite(TRIG, LOW);
   unsigned long tot = pulseIn(ECHO, HIGH, 30000UL);
-  if (tot == 0) return 999;
+  if (tot == 0) return 999;   // brak echa = brak przeszkody w zasięgu
   return (unsigned int)(tot / 58);
 }
 
 unsigned int lookAt(byte angle) {
   serwo.write(angle);
-  delay(200);   // czekaj az serwo dotrze do pozycji
+  delay(400);   // czekaj az serwo dotrze do pozycji
   return measureDistance();
 }
-
-unsigned int measureAroundDrive() {
-  unsigned int rd = lookAt(60);
-  unsigned int st = lookAt(90);
-  unsigned int ld = lookAt(140);
-  unsigned int min1;
-  unsigned int min2;
-  
-  if (rd < st) {
-    min1 = rd;
-  }
-  else {
-    min1 = st;
-  }
-  if (min1 < ld) {
-    min2 = min1;
-  }
-  else {
-    min2 = ld;
-  }
-
-  return min2;
-
-}
-
 
 ISR(PCINT1_vect) {
   if (PINC & (1 << PC0)) Wheels::cnt0++;

@@ -10,6 +10,8 @@
 
 
 Wheels* Wheels::instance = nullptr;
+volatile int Wheels::cnt0 = 0;
+volatile int Wheels::cnt1 = 0;
 
 Wheels::Wheels(LiquidCrystal_I2C& lcd1) : lcd(lcd1){
     instance = this;
@@ -68,6 +70,15 @@ void Wheels::attach(int pRF, int pRB, int pRS, int pLF, int pLB, int pLS, int sp
     this->speaker_pin = speaker_pin;
     pinMode(BEEPER, OUTPUT);
     Timer1.initialize();
+}
+
+void Wheels::setupSensors() {
+    pinMode(A0, INPUT);
+    pinMode(A1, INPUT);
+    cnt0 = 0;
+    cnt1 = 0;
+    PCICR  = 0x02;
+    PCMSK1 = 0x03;
 }
 
 void Wheels::forwardLeft() 
@@ -154,6 +165,7 @@ void Wheels::TimerUpdate() {
     Timer1.attachInterrupt(Wheels::makeSound, period);
 }
 
+
 void Wheels::stopLeft()
 {
     SET_MOVEMENT(pinsLeft, LOW, LOW);
@@ -187,88 +199,93 @@ void Wheels::stop()
 // Dodane
 
 void Wheels::goForward(int cm) {
-    unsigned long start_time = millis();
-    unsigned long curr_time = start_time;
+    cnt0 = 0;
+    cnt1 = 0;
+    int target = cm * TICKS_PER_CM;
 
     this->setSpeed(200);
     this->forward();
 
     this->lcd.clear();
-    this->lcd.setCursor(0,1);
+    this->lcd.setCursor(0, 1);
     this->lcd.print(cm, DEC);
     this->displayAnimation();
 
-
-    int mult = 23;
-    int sectors = 10;
-
-    unsigned long total_time = mult * cm;
-    unsigned long interval = total_time / sectors;
-    unsigned long last_update = start_time;
-
-    while (curr_time < start_time + total_time) {
-        curr_time = millis();
-
-        // update only every interval
-        if (curr_time - last_update >= interval) {
-            last_update = curr_time;
-
-            unsigned long elapsed = curr_time - start_time;
-            int remaining = cm - (cm * elapsed) / total_time;
-
-            this->lcd.clear();
-            this->lcd.setCursor(0,1);
-            this->lcd.print(remaining, DEC);
+    unsigned long lastUpdate = millis();
+    while ((cnt0 + cnt1) / 2 < target) {
+        if (millis() - lastUpdate >= 250) {
+            lastUpdate = millis();
+            int remainingCm = (target - (cnt0 + cnt1) / 2) / TICKS_PER_CM;
+            this->lcd.setCursor(0, 1);
+            this->lcd.print(remainingCm, DEC);
+            this->lcd.print("cm  ");
             this->displayAnimation();
+            Serial.println(remainingCm);
         }
     }
-    this->lcd.setCursor(0,1);
-    this->lcd.print(0, DEC);
+
     this->lcd.clear();
     this->stop();
 }
 
 void Wheels::goBack(int cm) {
-    unsigned long start_time = millis();
-    unsigned long curr_time = start_time;
+    cnt0 = 0;
+    cnt1 = 0;
+    int target = cm * TICKS_PER_CM;
 
     this->setSpeed(200);
     this->back();
 
     this->lcd.clear();
-    this->lcd.setCursor(0,1);
+    this->lcd.setCursor(0, 1);
     this->lcd.print(cm, DEC);
     this->displayAnimation();
 
-    int mult = 23;
-    int sectors = 10;
-
-    unsigned long total_time = mult * cm;
-    unsigned long interval = total_time / sectors;
-    unsigned long last_update = start_time;
-
-    while (curr_time < start_time + total_time) {
-        curr_time = millis();
-
-        // update only every interval
-        if (curr_time - last_update >= interval) {
-            last_update = curr_time;
-
-            unsigned long elapsed = curr_time - start_time;
-            int remaining = cm - (cm * elapsed) / total_time;
-
-            this->lcd.clear();
+    unsigned long lastUpdate = millis();
+    while ((cnt0 + cnt1) / 2 < target) {
+        if (millis() - lastUpdate >= 250) {
+            lastUpdate = millis();
+            int remainingCm = (target - (cnt0 + cnt1) / 2) / TICKS_PER_CM;
+            this->lcd.setCursor(0, 1);
+            this->lcd.print(remainingCm, DEC);
+            this->lcd.print("cm  ");
             this->displayAnimation();
-            this->lcd.setCursor(0,1);
-            this->lcd.print(remaining, DEC);
+            Serial.println(remainingCm);
         }
     }
-    this->lcd.setCursor(0,1);
-    this->lcd.print(0, DEC);
+
     this->lcd.clear();
     this->stop();
 }
 
+
+void Wheels::turnLeft(int deg) {
+    cnt0 = 0;
+    cnt1 = 0;
+    int target = (long)deg * TICKS_90DEG / 90;
+    if (target < 1) target = 1;
+
+    this->setSpeed(150);
+    this->forwardRight();
+    this->backLeft();
+
+    while ((cnt0 + cnt1) / 2 < target) {}
+    this->stop();
+}
+
+void Wheels::turnRight(int deg) {
+    cnt0 = 0;
+    cnt1 = 0;
+    int target = (long)deg * TICKS_90DEG / 90;
+    if (target < 1) target = 1;
+
+    this->setSpeed(150);
+    this->forwardLeft();
+    this->backRight();
+
+    while ((cnt0 + cnt1) / 2 < target) {}
+    this->stop();
+}
 
 void Wheels::displayAnimation() {
     this->lcd.setCursor(5,0);

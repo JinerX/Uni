@@ -10,6 +10,14 @@
 
 
 Wheels* Wheels::instance = nullptr;
+volatile uint16_t Wheels::cnt0 = 0;
+volatile uint16_t Wheels::cnt1 = 0;
+
+// ISR dla pinów A0 (PC0) i A1 (PC1) – zlicza impulsy enkoderów
+ISR(PCINT1_vect) {
+    if (PINC & (1 << PC0)) Wheels::cnt0++;
+    if (PINC & (1 << PC1)) Wheels::cnt1++;
+}
 
 Wheels::Wheels(LiquidCrystal_I2C& lcd1) : lcd(lcd1){
     instance = this;
@@ -49,7 +57,7 @@ void Wheels::setSpeedLeft(uint8_t s)
     analogWrite(this->pinsLeft[2], s);
     this->speed_left = s;
     this->displayAnimation();
-    this->TimerUpdate();
+
 }
 
 void Wheels::setSpeed(uint8_t s)
@@ -66,8 +74,13 @@ void Wheels::attach(int pRF, int pRB, int pRS, int pLF, int pLB, int pLS, int sp
     this->attachLeft(pLF, pLB, pLS);
     pinMode(speaker_pin, OUTPUT);
     this->speaker_pin = speaker_pin;
-    pinMode(BEEPER, OUTPUT);
-    Timer1.initialize();
+}
+
+void Wheels::attachSensors(int sensorRight, int sensorLeft) {
+    pinMode(sensorRight, INPUT);
+    pinMode(sensorLeft, INPUT);
+    PCICR  |= (1 << PCIE1);             // włącz grupę przerwań PCINT1 (PORTC)
+    PCMSK1 |= (1 << PC0) | (1 << PC1); // monitoruj A0 i A1
 }
 
 void Wheels::forwardLeft() 
@@ -114,18 +127,16 @@ void Wheels::backRight()
 
 void Wheels::forward()
 {
-    this->goingBack = false;
     this->forwardLeft();
     this->forwardRight();
     this->displayAnimation();
     Timer1.detachInterrupt();
-    digitalWrite(BEEPER, LOW);
+    digitalWrite(this->speaker_pin, LOW);
 
 }
 
 void Wheels::back()
 {
-    this->goingBack = true;
     this->backLeft();
     this->backRight();
     this->displayAnimation();
@@ -133,25 +144,13 @@ void Wheels::back()
 }
 
 void Wheels::TimerUpdate() {
-    if (!this->goingBack) return;
     int speed = abs(this->speed_left);
-    unsigned long period;
-    if (speed >= 250) {
-        period = 150000UL;
-    }
-    else if (speed >= 200) {
-        period = 200000UL;
-    } else if (speed >= 150) {
-        period = 300000UL;
-    } else if (speed >= 100) {
-        period = 400000UL;
-    } else if (speed >= 50) {
-        period = 500000UL;
-    } else {
-        period = 700000UL;
-    }
+    if (speed < 60) speed = 60;
+    // higher speed → fewer off-ticks → faster bip rate
+    this->beepOffTicks = (uint16_t)map(speed, 60, 255, 20, 5);
+    this->tickCount = 0;
     Timer1.detachInterrupt();
-    Timer1.attachInterrupt(Wheels::makeSound, period);
+    Timer1.attachInterrupt(Wheels::makeSound, 50000UL); // 50ms per tick
 }
 
 void Wheels::stopLeft()
@@ -172,13 +171,13 @@ void Wheels::stopRight()
 
 void Wheels::stop()
 {
-    this->goingBack = false;
     this->stopLeft();
     this->stopRight();
     this->lcd.clear();
+    digitalWrite(this->speaker_pin, LOW);
     this->displayAnimation();
     Timer1.detachInterrupt();
-    digitalWrite(BEEPER, LOW);
+    digitalWrite(this->speaker_pin, LOW);
 
 }
 
@@ -187,88 +186,83 @@ void Wheels::stop()
 // Dodane
 
 void Wheels::goForward(int cm) {
-    unsigned long start_time = millis();
-    unsigned long curr_time = start_time;
+    uint16_t target = (uint16_t)cm * TICKS_PER_CM;
+    cnt0 = 0; cnt1 = 0;
+    unsigned long last_update = millis();
 
     this->setSpeed(200);
     this->forward();
 
-    this->lcd.clear();
-    this->lcd.setCursor(0,1);
-    this->lcd.print(cm, DEC);
-    this->displayAnimation();
-
-
-    int mult = 23;
-    int sectors = 10;
-
-    unsigned long total_time = mult * cm;
-    unsigned long interval = total_time / sectors;
-    unsigned long last_update = start_time;
-
-    while (curr_time < start_time + total_time) {
-        curr_time = millis();
-
-        // update only every interval
-        if (curr_time - last_update >= interval) {
-            last_update = curr_time;
-
-            unsigned long elapsed = curr_time - start_time;
-            int remaining = cm - (cm * elapsed) / total_time;
+    while (cnt0 < target || cnt1 < target) {
+        unsigned long now = millis();
+        if (now - last_update >= 200) {
+            last_update = now;
+            int progress_cm = max(cnt0, cnt1) / TICKS_PER_CM;
+            int remaining = (progress_cm < cm) ? cm - progress_cm : 0;
 
             this->lcd.clear();
-            this->lcd.setCursor(0,1);
+            this->lcd.setCursor(0, 1);
             this->lcd.print(remaining, DEC);
             this->displayAnimation();
+
+            Serial.print("F cnt0="); Serial.print(cnt0);
+            Serial.print(" cnt1="); Serial.println(cnt1);
         }
     }
-    this->lcd.setCursor(0,1);
-    this->lcd.print(0, DEC);
     this->lcd.clear();
     this->stop();
 }
 
 void Wheels::goBack(int cm) {
-    unsigned long start_time = millis();
-    unsigned long curr_time = start_time;
+    uint16_t target = (uint16_t)cm * TICKS_PER_CM;
+    cnt0 = 0; cnt1 = 0;
+    unsigned long last_update = millis();
 
     this->setSpeed(200);
-    this->back();
+    this->back(); // back() wywołuje TimerUpdate() → beeper aktywny
 
-    this->lcd.clear();
-    this->lcd.setCursor(0,1);
-    this->lcd.print(cm, DEC);
-    this->displayAnimation();
-
-    int mult = 23;
-    int sectors = 10;
-
-    unsigned long total_time = mult * cm;
-    unsigned long interval = total_time / sectors;
-    unsigned long last_update = start_time;
-
-    while (curr_time < start_time + total_time) {
-        curr_time = millis();
-
-        // update only every interval
-        if (curr_time - last_update >= interval) {
-            last_update = curr_time;
-
-            unsigned long elapsed = curr_time - start_time;
-            int remaining = cm - (cm * elapsed) / total_time;
+    while (cnt0 < target || cnt1 < target) {
+        unsigned long now = millis();
+        if (now - last_update >= 200) {
+            last_update = now;
+            int progress_cm = max(cnt0, cnt1) / TICKS_PER_CM;
+            int remaining = (progress_cm < cm) ? cm - progress_cm : 0;
 
             this->lcd.clear();
-            this->displayAnimation();
-            this->lcd.setCursor(0,1);
+            this->lcd.setCursor(0, 1);
             this->lcd.print(remaining, DEC);
+            this->displayAnimation();
+
+            Serial.print("B cnt0="); Serial.print(cnt0);
+            Serial.print(" cnt1="); Serial.println(cnt1);
         }
     }
-    this->lcd.setCursor(0,1);
-    this->lcd.print(0, DEC);
     this->lcd.clear();
     this->stop();
 }
 
+
+void Wheels::turnLeft(int degrees) {
+    // pivot w miejscu: prawe do przodu, lewe do tyłu
+    uint16_t ticks = (uint16_t)((uint32_t)degrees * 314UL * WHEEL_TRACK_CM * TICKS_PER_CM / 36000UL);
+    cnt0 = 0; cnt1 = 0;
+    this->setSpeed(150);
+    this->forwardRight();
+    this->backLeft();
+    while (cnt0 < ticks || cnt1 < ticks) {}
+    this->stop();
+}
+
+void Wheels::turnRight(int degrees) {
+    // pivot w miejscu: lewe do przodu, prawe do tyłu
+    uint16_t ticks = (uint16_t)((uint32_t)degrees * 314UL * WHEEL_TRACK_CM * TICKS_PER_CM / 36000UL);
+    cnt0 = 0; cnt1 = 0;
+    this->setSpeed(150);
+    this->forwardLeft();
+    this->backRight();
+    while (cnt0 < ticks || cnt1 < ticks) {}
+    this->stop();
+}
 
 void Wheels::displayAnimation() {
     this->lcd.setCursor(5,0);
@@ -305,7 +299,12 @@ void Wheels::displayAnimation() {
 }
 
 void Wheels::makeSound() {
-    digitalWrite(BEEPER, digitalRead(BEEPER) ^ 1);
+    if (instance == nullptr) return;
+    instance->tickCount++;
+    uint16_t total = instance->beepOnTicks + instance->beepOffTicks;
+    if (instance->tickCount >= total) instance->tickCount = 0;
+    bool on = (instance->tickCount < instance->beepOnTicks);
+    digitalWrite(instance->speaker_pin, on ? HIGH : LOW);
 }
 
 

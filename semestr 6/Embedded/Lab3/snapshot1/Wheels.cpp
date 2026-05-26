@@ -49,7 +49,7 @@ void Wheels::setSpeedLeft(uint8_t s)
     analogWrite(this->pinsLeft[2], s);
     this->speed_left = s;
     this->displayAnimation();
-    this->TimerUpdate();
+
 }
 
 void Wheels::setSpeed(uint8_t s)
@@ -66,8 +66,6 @@ void Wheels::attach(int pRF, int pRB, int pRS, int pLF, int pLB, int pLS, int sp
     this->attachLeft(pLF, pLB, pLS);
     pinMode(speaker_pin, OUTPUT);
     this->speaker_pin = speaker_pin;
-    pinMode(BEEPER, OUTPUT);
-    Timer1.initialize();
 }
 
 void Wheels::forwardLeft() 
@@ -114,18 +112,16 @@ void Wheels::backRight()
 
 void Wheels::forward()
 {
-    this->goingBack = false;
     this->forwardLeft();
     this->forwardRight();
     this->displayAnimation();
     Timer1.detachInterrupt();
-    digitalWrite(BEEPER, LOW);
+    digitalWrite(this->speaker_pin, LOW);
 
 }
 
 void Wheels::back()
 {
-    this->goingBack = true;
     this->backLeft();
     this->backRight();
     this->displayAnimation();
@@ -133,25 +129,13 @@ void Wheels::back()
 }
 
 void Wheels::TimerUpdate() {
-    if (!this->goingBack) return;
     int speed = abs(this->speed_left);
-    unsigned long period;
-    if (speed >= 250) {
-        period = 150000UL;
-    }
-    else if (speed >= 200) {
-        period = 200000UL;
-    } else if (speed >= 150) {
-        period = 300000UL;
-    } else if (speed >= 100) {
-        period = 400000UL;
-    } else if (speed >= 50) {
-        period = 500000UL;
-    } else {
-        period = 700000UL;
-    }
+    if (speed < 60) speed = 60;
+    // higher speed → fewer off-ticks → faster bip rate
+    this->beepOffTicks = (uint16_t)map(speed, 60, 255, 20, 5);
+    this->tickCount = 0;
     Timer1.detachInterrupt();
-    Timer1.attachInterrupt(Wheels::makeSound, period);
+    Timer1.attachInterrupt(Wheels::makeSound, 50000UL); // 50ms per tick
 }
 
 void Wheels::stopLeft()
@@ -172,13 +156,13 @@ void Wheels::stopRight()
 
 void Wheels::stop()
 {
-    this->goingBack = false;
     this->stopLeft();
     this->stopRight();
     this->lcd.clear();
+    digitalWrite(this->speaker_pin, LOW);
     this->displayAnimation();
     Timer1.detachInterrupt();
-    digitalWrite(BEEPER, LOW);
+    digitalWrite(this->speaker_pin, LOW);
 
 }
 
@@ -305,7 +289,12 @@ void Wheels::displayAnimation() {
 }
 
 void Wheels::makeSound() {
-    digitalWrite(BEEPER, digitalRead(BEEPER) ^ 1);
+    if (instance == nullptr) return;
+    instance->tickCount++;
+    uint16_t total = instance->beepOnTicks + instance->beepOffTicks;
+    if (instance->tickCount >= total) instance->tickCount = 0;
+    bool on = (instance->tickCount < instance->beepOnTicks);
+    digitalWrite(instance->speaker_pin, on ? HIGH : LOW);
 }
 
 

@@ -19,11 +19,6 @@
 #ifndef Wheels_h
 #define Wheels_h
 
-#define BEEPER 13
-
-#define TICKS_PER_CM  1
-#define TICKS_90DEG   57
-
 
 
 class Wheels {
@@ -53,19 +48,24 @@ class Wheels {
         void displayAnimation();
 
         /***
-         * 
+         *
          * Dodane
-         * 
+         *
          */
+        void attachSensors(int sensorRight, int sensorLeft);
         void goForward(int cm);
         void goBack(int cm);
-        void turnLeft(int deg);
-        void turnRight(int deg);
-        void setupSensors();
+        void turnLeft(int degrees);
+        void turnRight(int degrees);
         static void makeSound();
-        // void TimerUpdate();
+        void TimerUpdate();
 
-        static volatile int cnt0, cnt1;
+        // Liczniki enkoderów (volatile – dostęp z ISR)
+        static volatile uint16_t cnt0; // prawe koło (A0/PC0)
+        static volatile uint16_t cnt1; // lewe koło  (A1/PC1)
+        // Stałe kalibracyjne – dostosuj do swojego pojazdu
+        static const uint8_t TICKS_PER_CM  = 4;  // ticki na centymetr
+        static const uint8_t WHEEL_TRACK_CM = 14; // rozstaw kół [cm]
         
         /*
          *  ustawienie prędkości obrotowej (przez PWM)
@@ -80,13 +80,16 @@ class Wheels {
         int speed_left;
         LiquidCrystal_I2C& lcd;
 
-    private:
+    private: 
         int pinsRight[3];
         int pinsLeft[3];
         int speaker_pin;
         static Wheels* instance;
-        bool goingBack = false;
 
+        volatile bool buzzerState = false;
+        volatile uint16_t tickCount = 0;
+        uint16_t beepOnTicks = 3;
+        uint16_t beepOffTicks = 20;
 };
 
 

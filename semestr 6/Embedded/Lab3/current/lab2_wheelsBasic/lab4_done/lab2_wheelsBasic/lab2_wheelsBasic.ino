@@ -49,18 +49,29 @@ void setup() {
 
   // lcd.createChar(0, "2");
   w.attach(In4,In3,EnB,In2,In1,EnA, speaker_pin);
-  // w.startAnimation(lcd);
-  w.goForward(30);
-  delay(1000);
-  w.goBack(30);
+  w.setupSensors();
+  w.goForward(50);
+  delay(500);
+  w.turnLeft(90);
+  delay(500);
+  w.goForward(50);
+  delay(500);
+  w.turnRight(90);
+  delay(500);
+  w.goForward(50);
 
 }
 // void loop() {
-//   Serial.print("Time: ");
-//   myTime = millis();
-//   Serial.println(myTime);
-//   delay(1000);
+  // Serial.print("Time: ");
+  // myTime = millis();
+  // Serial.println(myTime);
+  // delay(1000);
 // }
+
+ISR(PCINT1_vect) {
+  if (PINC & (1 << PC0)) Wheels::cnt0++;
+  if (PINC & (1 << PC1)) Wheels::cnt1++;
+}
 
 
 
@@ -72,6 +83,7 @@ int display = 0;
 void loop() {
   while(Serial.available())
   {
+    Serial.println(w.speed_right);
     cmd = Serial.read();
     display = display - 1;
     // Wyświetl tekst komendy na LCD

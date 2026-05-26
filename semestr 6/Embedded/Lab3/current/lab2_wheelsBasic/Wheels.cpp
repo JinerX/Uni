@@ -1,4 +1,4 @@
-#include <TimerOne.h>
+// #include <TimerOne.h>
 
 #include <Arduino.h>
 
@@ -51,7 +51,7 @@ void Wheels::setSpeedLeft(uint8_t s)
     analogWrite(this->pinsLeft[2], s);
     this->speed_left = s;
     this->displayAnimation();
-    this->TimerUpdate();
+    // this->TimerUpdate();
 }
 
 void Wheels::setSpeed(uint8_t s)
@@ -69,7 +69,7 @@ void Wheels::attach(int pRF, int pRB, int pRS, int pLF, int pLB, int pLS, int sp
     pinMode(speaker_pin, OUTPUT);
     this->speaker_pin = speaker_pin;
     pinMode(BEEPER, OUTPUT);
-    Timer1.initialize();
+    // Timer1.initialize();
 }
 
 void Wheels::setupSensors() {
@@ -88,7 +88,7 @@ void Wheels::forwardLeft()
         this->speed_left = -(this->speed_left);
     }
     this->displayAnimation();
-    Timer1.detachInterrupt();
+    // Timer1.detachInterrupt();
 
 }
 
@@ -99,7 +99,7 @@ void Wheels::forwardRight()
         this->speed_right = -(this->speed_right);
     }
     this->displayAnimation();
-    Timer1.detachInterrupt();
+    // Timer1.detachInterrupt();
 
 }
 
@@ -129,7 +129,7 @@ void Wheels::forward()
     this->forwardLeft();
     this->forwardRight();
     this->displayAnimation();
-    Timer1.detachInterrupt();
+    // Timer1.detachInterrupt();
     digitalWrite(BEEPER, LOW);
 
 }
@@ -140,25 +140,25 @@ void Wheels::back()
     this->backLeft();
     this->backRight();
     this->displayAnimation();
-    this->TimerUpdate();
+    // this->TimerUpdate();
 }
 
-void Wheels::TimerUpdate() {
-    if (!this->goingBack) return;
-    int speed = abs(this->speed_left);
-    unsigned long period;
-    if (speed >= 200) {
-        period = 200000UL;
-    } else if (speed >= 150) {
-        period = 300000UL;
-    } else if (speed >= 100) {
-        period = 400000UL;
-    } else {
-        period = 500000UL;
-    }
-    Timer1.detachInterrupt();
-    Timer1.attachInterrupt(Wheels::makeSound, period);
-}
+// void Wheels::TimerUpdate() {
+//     if (!this->goingBack) return;
+//     int speed = abs(this->speed_left);
+//     unsigned long period;
+//     if (speed >= 200) {
+//         period = 200000UL;
+//     } else if (speed >= 150) {
+//         period = 300000UL;
+//     } else if (speed >= 100) {
+//         period = 400000UL;
+//     } else {
+//         period = 500000UL;
+//     }
+//     Timer1.detachInterrupt();
+//     Timer1.attachInterrupt(Wheels::makeSound, period);
+// }
 
 void Wheels::stopLeft()
 {
@@ -183,7 +183,7 @@ void Wheels::stop()
     this->stopRight();
     this->lcd.clear();
     this->displayAnimation();
-    Timer1.detachInterrupt();
+    // Timer1.detachInterrupt();
     digitalWrite(BEEPER, LOW);
 
 }
@@ -259,7 +259,7 @@ void Wheels::turnLeft(int deg) {
     int target = (long)deg * TICKS_90DEG / 90;
     if (target < 1) target = 1;
 
-    this->setSpeed(150);
+    this->setSpeed(200);
     this->forwardRight();
     this->backLeft();
 
@@ -273,7 +273,7 @@ void Wheels::turnRight(int deg) {
     int target = (long)deg * TICKS_90DEG / 90;
     if (target < 1) target = 1;
 
-    this->setSpeed(150);
+    this->setSpeed(200);
     this->forwardLeft();
     this->backRight();
 

@@ -63,7 +63,7 @@ class Wheels {
         void turnRight(int deg);
         void setupSensors();
         static void makeSound();
-        // void TimerUpdate();
+        void TimerUpdate();
 
         static volatile int cnt0, cnt1;
         
