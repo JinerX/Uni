@@ -1,9 +1,3 @@
-// Runs Tabu Search with given parameters for n_trials independent runs.
-// Usage: ./main2 <tsp_file> <tabu_size> <neighbor_sample> <max_no_improve> <n_trials> <output_prefix>
-// Outputs:
-//   results/<prefix>_trials.csv    - per-trial cost and time
-//   results/<prefix>_best_tour.csv - best tour found (for visualization)
-
 #include <iostream>
 #include <fstream>
 #include <string>

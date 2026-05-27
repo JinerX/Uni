@@ -1,9 +1,3 @@
-// Grid search for SA parameters on small TSP instances (< 1000 cities).
-// Outputs:
-//   results/grid_search.csv   - all run stats
-//   results/best_params.txt   - ranked parameter combos
-//   results/solution_<name>.csv - best tour per file (with best params)
-
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -26,16 +20,18 @@ static string basename_noext(const string& path) {
 int main() {
     filesystem::create_directories("results");
 
-    // Small files only (< 1000 cities)
     vector<string> files = {
         "../data/wi29.tsp", "../data/dj38.tsp", "../data/qa194.tsp",
         "../data/uy734.tsp", "../data/zi929.tsp"
     };
 
-    // --- Parameter grid ---
-    vector<double> temps  = {500.0, 5000.0, 50000.0};
-    vector<double> alphas = {0.90, 0.95, 0.99};
-    vector<int>    iters  = {200, 1000, 5000};
+    // vector<double> temps  = {500.0, 5000.0, 50000.0};
+    vector<double> temps  = {6000.0, 10000.0};
+
+    vector<double> alphas = {0.985, 0.99};
+    // vector<int>    iters  = {200, 1000, 5000};
+    vector<int>    iters  = {5000, 7000, 10000};
+
 
     mt19937 rng(42);
 
@@ -85,7 +81,6 @@ int main() {
         score_sum[k] += r.cost / best_per_file.at(r.fname);
     }
 
-    // Sort by score
     vector<pair<double, Key>> ranked;
     for (const auto& [k, s] : score_sum) ranked.push_back({s, k});
     sort(ranked.begin(), ranked.end());

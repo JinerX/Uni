@@ -1,11 +1,11 @@
 #pragma once
-#include "tsp_sa.h"  // reuses City, read_tsp, dist, tour_cost, save_tour
+#include "tsp_sa.h"
 #include <deque>
 
 struct TSParams {
     int tabu_size;
-    int neighbor_sample;  // random neighbors evaluated per iteration
-    int max_no_improve;   // stop after this many iters without new global best
+    int neighbor_sample;
+    int max_no_improve;
 };
 
 struct TSResult { std::vector<int> tour; double cost, time_ms; };
@@ -22,7 +22,6 @@ inline TSResult run_ts(const std::vector<City>& cities, const TSParams& p, std::
     std::vector<int> best = tour;
     double best_cost = cost;
 
-    // Tabu list stores (a, b) with a < b — inner endpoints of reversed segment
     std::deque<std::pair<int,int>> tabu;
 
     auto add_tabu = [&](int a, int b) {
@@ -54,7 +53,6 @@ inline TSResult run_ts(const std::vector<City>& cities, const TSParams& p, std::
                      - dist(cities[tour[i]],   cities[tour[i+1]])
                      - dist(cities[tour[j]],   cities[tour[j1]]);
             bool tb = is_tabu(tour[i+1], tour[j]);
-            // Accept if not tabu, or aspiration: move yields new global best
             if ((!tb || cost + d < best_cost) && d < bd) {
                 bd = d; bi = i; bj = j;
             }

@@ -1,0 +1,20 @@
+Best parameters (score = sum of cost/best_cost across files):
+
+init_temp=10000
+cooling_rate=0.99
+iters_per_temp=10000
+score=5.02138
+
+All combinations ranked:
+  score=5.02138  T=10000  alpha=0.99  iters=10000
+  score=5.02368  T=6000  alpha=0.99  iters=7000
+  score=5.03271  T=6000  alpha=0.985  iters=10000
+  score=5.04372  T=6000  alpha=0.99  iters=10000
+  score=5.05507  T=6000  alpha=0.985  iters=7000
+  score=5.05932  T=10000  alpha=0.985  iters=10000
+  score=5.06454  T=10000  alpha=0.99  iters=7000
+  score=5.07298  T=6000  alpha=0.99  iters=5000
+  score=5.08757  T=10000  alpha=0.985  iters=5000
+  score=5.09518  T=10000  alpha=0.99  iters=5000
+  score=5.09815  T=10000  alpha=0.985  iters=7000
+  score=5.09836  T=6000  alpha=0.985  iters=5000

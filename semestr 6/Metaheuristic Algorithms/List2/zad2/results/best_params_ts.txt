@@ -1,0 +1,35 @@
+Best parameters (score = sum of cost/best_cost across files):
+
+tabu_size=10
+neighbor_sample=500
+max_no_improve=3000
+score=5.00678
+
+All combinations ranked:
+  score=5.00678  tabu=10  sample=500  no_imp=3000
+  score=5.05148  tabu=100  sample=500  no_imp=3000
+  score=5.0567  tabu=50  sample=500  no_imp=3000
+  score=5.06212  tabu=10  sample=500  no_imp=1000
+  score=5.11462  tabu=50  sample=500  no_imp=1000
+  score=5.12849  tabu=100  sample=500  no_imp=1000
+  score=5.13492  tabu=10  sample=500  no_imp=300
+  score=5.15367  tabu=50  sample=500  no_imp=300
+  score=5.1725  tabu=100  sample=500  no_imp=300
+  score=5.41468  tabu=10  sample=200  no_imp=3000
+  score=5.41585  tabu=100  sample=200  no_imp=1000
+  score=5.41743  tabu=50  sample=200  no_imp=3000
+  score=5.42176  tabu=10  sample=200  no_imp=1000
+  score=5.43421  tabu=100  sample=200  no_imp=3000
+  score=5.4412  tabu=50  sample=200  no_imp=1000
+  score=5.52906  tabu=100  sample=200  no_imp=300
+  score=5.54504  tabu=10  sample=200  no_imp=300
+  score=5.63391  tabu=50  sample=200  no_imp=300
+  score=7.36679  tabu=10  sample=50  no_imp=3000
+  score=7.40923  tabu=10  sample=50  no_imp=1000
+  score=7.42248  tabu=50  sample=50  no_imp=3000
+  score=7.68973  tabu=50  sample=50  no_imp=1000
+  score=7.71997  tabu=100  sample=50  no_imp=3000
+  score=7.76746  tabu=100  sample=50  no_imp=1000
+  score=7.90824  tabu=50  sample=50  no_imp=300
+  score=7.96691  tabu=10  sample=50  no_imp=300
+  score=8.34416  tabu=100  sample=50  no_imp=300

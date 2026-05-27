@@ -16,6 +16,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 
 def tour_length(df):
     xs, ys = df["x"].tolist(), df["y"].tolist()
@@ -67,8 +69,8 @@ def plot_trials(csv_path):
     print(f"Saved {out}")
 
 
-for f in glob.glob("results/solution_*.csv") + glob.glob("results/*_best_tour.csv"):
+for f in glob.glob("results\\solution_*.csv") + glob.glob("results\\*_best_tour.csv"):
     plot_tour(f)
 
-for f in glob.glob("results/*_trials.csv"):
+for f in glob.glob("results\\*_trials.csv"):
     plot_trials(f)

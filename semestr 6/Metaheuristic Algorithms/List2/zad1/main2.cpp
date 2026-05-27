@@ -38,7 +38,6 @@ int main(int argc, char* argv[]) {
     int n = cities.size();
 
     SAParams p{init_temp, cooling_rate, iters_per_temp};
-    std::mt19937 rng(std::random_device{}());
 
     double best_cost = 1e18;
     std::vector<int> best_tour;
@@ -49,6 +48,12 @@ int main(int argc, char* argv[]) {
     trials << "trial,cost,time_ms\n";
 
     for (int t = 0; t < n_trials; t++) {
+        // std::random_device is broken on Windows/MinGW (always returns same value),
+        // so mix in high-resolution clock and trial index for distinct seeds.
+        auto seed = static_cast<uint64_t>(
+                        std::chrono::high_resolution_clock::now().time_since_epoch().count())
+                    ^ (uint64_t(t) * 6364136223846793005ULL + 1442695040888963407ULL);
+        std::mt19937 rng(static_cast<uint32_t>(seed ^ (seed >> 32)));
         auto res = run_sa(cities, p, rng);
         costs.push_back(res.cost);
         total_ms += res.time_ms;
