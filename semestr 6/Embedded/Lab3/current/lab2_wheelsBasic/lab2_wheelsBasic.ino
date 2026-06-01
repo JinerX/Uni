@@ -19,10 +19,10 @@
 // Hooke's law: F = -k * x,  x = distance - TARGET
 // F is mapped to PWM speed (clamped to MIN..MAX).
 // "Stiff spring" = no overshoot; achieved by generous deadband + linear damping.
-#define SPRING_TARGET      100   // equilibrium distance in cm
-#define SPRING_TOLERANCE   5     // deadband (±cm): inside this zone the car stops
-#define SPRING_MIN_SPEED   80    // minimum PWM that actually moves the motors
-#define SPRING_MAX_SPEED   220   // maximum PWM speed
+#define SPRING_TARGET      40   // equilibrium distance in cm
+#define SPRING_TOLERANCE   3     // deadband (±cm): inside this zone the car stops
+#define SPRING_MIN_SPEED   100    // minimum PWM that actually moves the motors
+#define SPRING_MAX_SPEED   300   // maximum PWM speed
 #define SPRING_ERROR_MAX   100   // |error| (cm) at which max speed is applied
 
 // ===================== IR CODES (NEC) =====================
@@ -96,7 +96,7 @@ void setup() {
 
     IrReceiver.begin(IR_PIN, ENABLE_LED_FEEDBACK);
 
-    waitForPIN();
+    // waitForPIN();
 }
 
 // ===================== LOOP =====================
@@ -165,7 +165,7 @@ void waitForPIN() {
 void updateSonar() {
     if (millis() - lastSonarTime < SONAR_PERIOD_MS) return;
     lastSonarTime = millis();
-    serwo.write(90);  // always look straight ahead
+    serwo.write(110);  // always look straight ahead
     DISTANCE_SONAR = measureDistance();
 }
 

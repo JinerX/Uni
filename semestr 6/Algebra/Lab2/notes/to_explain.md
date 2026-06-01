@@ -1,0 +1,2 @@
+- functools cmp_to_key
+- `ar_names = [chr(ord('x') + i) for i in range(min(n, 26))]` chr and ord like in this 
