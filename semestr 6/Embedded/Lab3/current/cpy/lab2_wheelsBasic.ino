@@ -23,21 +23,13 @@ Wheels w(lcd);
 char movementType = 1;
 char prevMovement = -1;
 
-volatile int clapCount = 0;
-volatile unsigned long lastClapTime = 0;
+int clapCount = 0;
+unsigned long lastClapTime = 0;
+int lastSoundState = LOW;
 
-void ISR_soundDetected();
+void detectClaps();
 void applyMovement();
 void updateLCD();
-
-// Called on every RISING edge of SOUND_PIN
-void ISR_soundDetected() {
-    unsigned long now = millis();
-    if (now - lastClapTime > DEBOUNCE_MS) {
-        clapCount++;
-        lastClapTime = now;
-    }
-}
 
 void setup() {
     Serial.begin(115200);
@@ -45,7 +37,6 @@ void setup() {
     Serial.print("DEBOUNCE_MS=");  Serial.print(DEBOUNCE_MS);
     Serial.print("  EVAL_TIMEOUT="); Serial.print(EVAL_TIMEOUT);
     Serial.print("  DRIVE_SPEED=");  Serial.println(DRIVE_SPEED);
-
     pinMode(LCD_PIN, OUTPUT);
     digitalWrite(LCD_PIN, HIGH);
 
@@ -54,45 +45,62 @@ void setup() {
     lcd.clear();
     Serial.print("After LCD");
 
-    w.attach(IN4_PIN, IN3_PIN, ENB_PIN, IN2_PIN, IN1_PIN, ENA_PIN, 13);
 
+    w.attach(IN4_PIN, IN3_PIN, ENB_PIN, IN2_PIN, IN1_PIN, ENA_PIN, 13);
     pinMode(SOUND_PIN, INPUT);
-    attachInterrupt(digitalPinToInterrupt(SOUND_PIN), ISR_soundDetected, RISING);
     Serial.print("Pin attach");
+
 }
 
 void loop() {
-    // Atomic read of shared volatile vars
-    noInterrupts();
-    int count = clapCount;
-    unsigned long lastTime = lastClapTime;
-    interrupts();
+    detectClaps();
+    applyMovement();
+    updateLCD();
+}
 
-    if (count > 0 && millis() - lastTime > EVAL_TIMEOUT) {
-        // Reset counter atomically before acting on the snapshot
-        noInterrupts();
-        clapCount = 0;
-        interrupts();
-
-        Serial.print("[EVAL] claps=");
-        Serial.print(count);
-        Serial.print(" -> ");
-
-        switch (count) {
-            case 1:
-                if (movementType == 0) {
-                    movementType = 1; Serial.println("FORWARD"); break;
-                } else {
-                    movementType = 0; Serial.println("STOP");    break;
-                }
-            case 2:  movementType = 2; Serial.println("LEFT");   break;
-            case 3:  movementType = 3; Serial.println("RIGHT");  break;
-            default: movementType = 3; Serial.println("RIGHT");  break;
+void detectClaps() {
+    // int currentState = digitalRead(SOUND_PIN);
+    int value = digitalRead(SOUND_PIN);
+    // float voltage = value * (5.0 / 1023.0);
+    // Serial.println(value);
+    int currentState = 0;
+    if (value) {
+        currentState = 1;
+        unsigned long now = millis();
+        if (now - lastClapTime > DEBOUNCE_MS) {
+            clapCount++;
+            lastClapTime = now;
+            Serial.print("[CLAP] count=");
+            Serial.print(clapCount);
+            Serial.print("  t=");
+            Serial.println(now);
+        } else {
+            Serial.print("[BOUNCE ignored] gap=");
+            Serial.print(now - lastClapTime);
+            Serial.println("ms");
         }
     }
+    lastSoundState = currentState;
 
-    applyMovement();
-    updateLCD(count);
+    if (clapCount > 0 && millis() - lastClapTime > EVAL_TIMEOUT) {
+        Serial.print("[EVAL] claps=");
+        Serial.print(clapCount);
+        Serial.print(" -> ");
+
+        switch (clapCount) {
+            case 1:
+                if (movementType == 0) {
+                    movementType = 1; Serial.println("FORWARD");    break;
+                }
+                else {
+                    movementType = 0; Serial.println("STOP");    break;
+                }
+            case 2:  movementType = 2; Serial.println("LEFT");    break;
+            case 3:  movementType = 3; Serial.println("RIGHT");   break;
+            default: movementType = 3; Serial.println("RIGHT"); break;
+        }
+        clapCount = 0;
+    }
 }
 
 void applyMovement() {
@@ -108,7 +116,7 @@ void applyMovement() {
     }
 }
 
-void updateLCD(int count) {
+void updateLCD() {
     lcd.setCursor(0, 0);
     switch (movementType) {
         case 0: lcd.print("STOP"); break;
@@ -117,9 +125,9 @@ void updateLCD(int count) {
         case 3: lcd.print("R   "); break;
     }
     lcd.setCursor(0, 1);
-    if (count > 0) {
+    if (clapCount > 0) {
         lcd.print("Claps: ");
-        lcd.print(count);
+        lcd.print(clapCount);
         lcd.print(" ");
     } else {
         lcd.print("                ");
